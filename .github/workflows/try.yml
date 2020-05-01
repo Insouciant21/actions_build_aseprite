@@ -1,0 +1,35 @@
+name: Aseprite
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ilammy/msvc-dev-cmd@v1
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@v1
+      with:
+    # Ninja version. Make sure given ninja version exists in ninja github release
+        version: 1.10.0
+    # Folder where ninja binary will be downloaded
+        dest: ninja_bin
+    # Override default platform detection logic. Accepted values are [mac, linux, win]
+        platform: win
+    - name: cmake-configure
+      uses: snickerbockers/cmake-configure@prerel1
+    - name: Install
+      run: |
+        git clone --recursive https://github.com/aseprite/aseprite.git  
+        cd aseprite
+        git submodule update --init --recursive
+
+    - name: Run a multi-line script
+      run: |
+        cd ..
+        certutil -urlcache -split -f https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip
+        expand Skia-Windows-Release-x64.zip skia/
+        
