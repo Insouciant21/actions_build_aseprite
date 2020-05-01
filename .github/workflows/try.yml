@@ -31,5 +31,5 @@ jobs:
       run: |
         cd ..
         certutil -urlcache -split -f https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip
-        expand Skia-Windows-Release-x64.zip skia/
+        expand Skia-Windows-Release-x64.zip
         
