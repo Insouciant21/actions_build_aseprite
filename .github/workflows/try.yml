@@ -26,10 +26,10 @@ jobs:
         git clone --recursive https://github.com/aseprite/aseprite.git  
         cd aseprite
         git submodule update --init --recursive
+        dir
 
     - name: Run a multi-line script
       run: |
         cd ..
-        certutil -urlcache -split -f https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip
-        expand Skia-Windows-Release-x64.zip
+        dir
         
