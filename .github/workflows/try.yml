@@ -35,7 +35,7 @@ jobs:
       uses: crazy-max/ghaction-chocolatey@v1.1.0
       with:
       # Arguments to pass to Chocolatey
-        args: unistall gcc
+        args: uninstall gcc
     - name: Skia
       run: |
         wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x86.zip -O skia.zip
