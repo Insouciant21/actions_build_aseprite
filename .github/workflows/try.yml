@@ -1,4 +1,4 @@
-name: try aseprite #1
+name: try aseprite
 on:
   push:
     branches: [ master ]
@@ -12,34 +12,28 @@ jobs:
     - name: Enable Developer Command Prompt
       uses: ilammy/msvc-dev-cmd@v1.2.0
       with:
-        # Target architecture
         arch: x64
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@v1
       with:
-    # Ninja version. Make sure given ninja version exists in ninja github release
         version: 1.10.0
-    # Folder where ninja binary will be downloaded
         dest: ninja_bin
-    # Override default platform detection logic. Accepted values are [mac, linux, win]
         platform: win
     - name: cmake-configure
       uses: snickerbockers/cmake-configure@prerel1
-    - name: Init Repo
-      run: |
-        git clone --recursive https://github.com/aseprite/aseprite.git  
-        cd aseprite
-        git submodule update --init --recursive
-    - name: Install Software
+    - name: choco
       uses: crazy-max/ghaction-chocolatey@v1.1.0
       with:
       # Arguments to pass to Chocolatey
         args: install 7zip wget
-    - name: Skia
+    - name: Initialize environment
       run: |
+        git clone --recursive https://github.com/aseprite/aseprite.git  
+        cd aseprite
+        git submodule update --init --recursive        
         wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
         7z x skia.zip -y -oskia
-    - name: Aseprite
+    - name: Build aseprite and archive it
       run: |
         cd aseprite
         mkdir build 
@@ -48,11 +42,9 @@ jobs:
         nmake
         cd ..\..
         7z -tzip a aseprite.zip aseprite\*
-    - name: Upload a Build Artifact
+    - name: Upload the zip
       uses: actions/upload-artifact@v2
       with:
-          # Artifact name
         name: aseprite
-        # A file, directory or wildcard pattern that describes what to upload
-        path: aseprite\aseprite.zip
+        path: aseprite.zip
         
