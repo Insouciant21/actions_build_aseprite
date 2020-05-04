@@ -27,9 +27,23 @@ jobs:
         cd aseprite
         git submodule update --init --recursive
         dir
+    - name: Chocolatey Action
+      uses: crazy-max/ghaction-chocolatey@v1.1.0
+      with:
+      # Arguments to pass to Chocolatey
+        args: 7zip wget
 
     - name: Run a multi-line script
       run: |
-        cd ..
-        dir
+        wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
+        7z -x skia.zip -y -aos -o skia
+    - name: Aseprite
+      run: |
+        cd aseprite
+        mkdir build 
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=..\..\skia -DSKIA_LIBRARY_DIR=..\..\skia\out\Release-x86 -G Ninja ..
+        ninja aseprite
+        
+        
         
