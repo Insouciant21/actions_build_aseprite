@@ -31,7 +31,7 @@ jobs:
       uses: crazy-max/ghaction-chocolatey@v1.1.0
       with:
       # Arguments to pass to Chocolatey
-        args: 7zip wget
+        args: install 7zip wget
 
     - name: Run a multi-line script
       run: |
