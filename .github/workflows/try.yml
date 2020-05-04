@@ -1,4 +1,4 @@
-name: Aseprite
+name: try aseprite #1
 on:
   push:
     branches: [ master ]
@@ -21,7 +21,7 @@ jobs:
         platform: win
     - name: cmake-configure
       uses: snickerbockers/cmake-configure@prerel1
-    - name: Install
+    - name: Init Repo
       run: |
         git clone --recursive https://github.com/aseprite/aseprite.git  
         cd aseprite
@@ -31,11 +31,6 @@ jobs:
       with:
       # Arguments to pass to Chocolatey
         args: install 7zip wget
-    - name: Remove Software
-      uses: crazy-max/ghaction-chocolatey@v1.1.0
-      with:
-      # Arguments to pass to Chocolatey
-        args: uninstall gcc
     - name: Skia
       run: |
         wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x86.zip -O skia.zip
