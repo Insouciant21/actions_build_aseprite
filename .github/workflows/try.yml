@@ -44,7 +44,6 @@ jobs:
         cd aseprite
         mkdir build 
         cd build
-        call C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat
         cmake .. -G "NMake Makefiles" -DENABLE_TESTS=ON -DENABLE_UI=%ENABLE_UI%
         nmake
         ctest --output-on-failure
