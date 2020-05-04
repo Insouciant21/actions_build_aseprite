@@ -36,7 +36,7 @@ jobs:
     - name: Run a multi-line script
       run: |
         wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
-        7z -x skia.zip -y -aos -o skia
+        7z x skia.zip -y -oskia
     - name: Aseprite
       run: |
         cd aseprite
