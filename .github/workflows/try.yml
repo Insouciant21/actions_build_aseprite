@@ -44,7 +44,7 @@ jobs:
         cd aseprite
         mkdir build 
         cd build
-        cmake .. -G "NMake Makefiles" -DENABLE_TESTS=ON -DENABLE_UI=%ENABLE_UI%
+        cmake .. -G "NMake Makefiles" -DENABLE_TESTS=ON -DENABLE_UI=ON
         nmake
         cd ..\..
         7z -tzip a aseprite.zip aseprite\*
