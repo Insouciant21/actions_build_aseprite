@@ -46,7 +46,6 @@ jobs:
         cd build
         cmake .. -G "NMake Makefiles" -DENABLE_TESTS=ON -DENABLE_UI=%ENABLE_UI%
         nmake
-        ctest --output-on-failure
         cd ..\..
         7z -tzip a aseprite.zip aseprite\*
     - name: Upload a Build Artifact
