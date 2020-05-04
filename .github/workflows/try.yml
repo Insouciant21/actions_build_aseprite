@@ -26,14 +26,14 @@ jobs:
         git clone --recursive https://github.com/aseprite/aseprite.git  
         cd aseprite
         git submodule update --init --recursive
-        dir
+        wmic product where  '(name="gcc")' call uninstall
     - name: Chocolatey Action
       uses: crazy-max/ghaction-chocolatey@v1.1.0
       with:
       # Arguments to pass to Chocolatey
         args: install 7zip wget
 
-    - name: Run a multi-line script
+    - name: Skia
       run: |
         wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x86.zip -O skia.zip
         7z x skia.zip -y -oskia
@@ -45,10 +45,11 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x86 -G Ninja ..
         ninja aseprite
         cd ..
-        7z -tzip a aseprite.zip build\bin
+        7z -tzip a aseprite.zip build\bin\*
     - name: Upload to Release
       uses: JasonEtco/upload-to-release@v0.1.1
       with:
         args: aseprite\aseprite.zip
-        
+      env:
+        GITHUB_TOKEN: 33b46e0cb183f0bd9f00b53b2321b21c9ac4dc39
         
