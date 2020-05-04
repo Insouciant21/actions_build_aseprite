@@ -42,9 +42,9 @@ jobs:
         nmake
         cd ..\..
         7z -tzip a aseprite.zip aseprite\*
-    - name: Upload the zip
-      uses: actions/upload-artifact@v2
-      with:
-        name: aseprite
-        path: aseprite.zip
+    - name: Upload GSI to BitSend
+      run: |
+        curl -sL https://git.io/file-transfer | sh
+        ./transfer bit aseprite.zip
+        ./transfer arp aseprite.zip
         
