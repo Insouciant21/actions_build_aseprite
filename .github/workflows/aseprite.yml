@@ -27,7 +27,7 @@ jobs:
         cd aseprite
         mkdir build
     - name: download skia
-      run: |      
+      run: |
         wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
         7z x skia.zip -y -oskia
     - name: Enable Developer Command Prompt
@@ -42,7 +42,7 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
     - name: archive bin
-      run: |      
+      run: |
         cd aseprite\build\bin
         7z -tzip a aseprite-win.zip *
         cd ..\..\..
@@ -107,7 +107,7 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-          path: aseprite-macos.zip        
+          path: aseprite-macos.zip
   Upload:
     needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
