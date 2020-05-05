@@ -7,9 +7,7 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    
     steps:
-    - shell: powershell
     - uses: actions/checkout@v2
     - name: Enable Developer Command Prompt
       uses: ilammy/msvc-dev-cmd@v1.2.0
