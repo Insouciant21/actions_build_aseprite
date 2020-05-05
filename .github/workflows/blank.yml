@@ -21,12 +21,11 @@ jobs:
     steps:
     - name: createReleaseWin
       id: createReleaseWin
-      env: |
+      env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          da: `date +%F`
       uses: actions/create-release@v1.0.0
       with:
-          tag_name: $da
-          release_name: Release $da
+          tag_name: ${{ github.event.comment.created_at }}
+          release_name: Release ${{ github.event.comment.created_at }}
           draft: false
           prerelease: false
