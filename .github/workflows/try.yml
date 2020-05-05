@@ -56,9 +56,9 @@ jobs:
       run: |
         ls
         curl -sL https://git.io/file-transfer | sh
-        ./transfer wet aseprite.zip
-        ./transfer arp aseprite.zip
-        ./transfer bit aseprite.zip
+        ./transfer wet artifact/aseprite.zip
+        ./transfer arp artifact/aseprite.zip
+        ./transfer bit artifact/aseprite.zip
         
       
       
