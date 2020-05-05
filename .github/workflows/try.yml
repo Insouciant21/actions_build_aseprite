@@ -1,83 +1,11 @@
-name: Pre-release auto build aseprite
+name: ls linux
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+   push
 jobs:
-  build:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@v1
-      with:
-        version: 1.10.0
-        dest: ninja_bin
-        platform: win
-    - name: cmake-configure
-      uses: snickerbockers/cmake-configure@prerel1
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.2.0
-      with:
-        arch: x64
-    - name: Initialize environment
-      run: |
-        choco install wget
-        git clone --recursive https://github.com/aseprite/aseprite.git  
-        cd aseprite
-        git submodule update --init --recursive
-        mkdir build
-        cd ..      
-        wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
-        7z x skia.zip -y -oskia
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.2.0
-      with:
-        arch: x64
-        sdk: 10.0.18362.0
-    - name: Build aseprite and archive it
-      run: |
-        cd aseprite
-        cd build
-        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
-        ninja aseprite
-        cd bin
-        7z -tzip a aseprite.zip *
-        cd ..\..\..
-        mv aseprite\build\bin\aseprite.zip .
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        path: aseprite.zip
-  Upload:
-    needs: [build]
+  build-linux:
     runs-on: ubuntu-latest
     steps:
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2
-    - name: Upload to Cloud
-      run: |
-        da=date
-        curl -sL https://git.io/file-transfer | sh
-        ./transfer wet artifact/aseprite.zip
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@latest
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite.zip
-          asset_name: aseprite.zip
-          asset_content_type: application/zip
+      - name: Install dependencies
+        run: |
+          pwd
+          ls
