@@ -3,7 +3,7 @@ on:
   watch:
     type: [started]
   schedule:
-    - cron:
+    - cron: '* * */7 * *'
 jobs:
   build-win:
     runs-on: windows-latest
