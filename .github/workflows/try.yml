@@ -19,14 +19,14 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1.2.0
       with:
         arch: x64
-    - name: Initialize
-      run: |
-        choco install wget
-        git clone --recursive https://github.com/aseprite/aseprite.git  
+    - name: wget install
+      run: choco install wget
+    - name: clone aseprite
+        git clone --recursive https://github.com/aseprite/aseprite.git
         cd aseprite
-        git submodule update --init --recursive
         mkdir build
-        cd ..      
+    - name: download skia
+      run: |      
         wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
         7z x skia.zip -y -oskia
     - name: Enable Developer Command Prompt
@@ -34,13 +34,14 @@ jobs:
       with:
         arch: x64
         sdk: 10.0.18362.0
-    - name: Build aseprite and archive it
+    - name: Compiling aseprite for windows
       run: |
         cd aseprite
         cd build
         cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
-        cd bin
+    - name: archive bin
+        cd aseprite\build\bin
         7z -tzip a aseprite-win.zip *
         cd ..\..\..
         mv aseprite\build\bin\aseprite-win.zip .
@@ -76,8 +77,36 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: aseprite-linux.zip
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: clone aseprite source
+      run: git clone --recursive https://github.com/aseprite/aseprite.git
+    - name: download skia
+      run: |
+        brew install p7zip wget ninja
+        wget -O skia.zip 'https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-macOS-Release-x64.zip'
+        7z x skia.zip -y -oskia
+    - name: Compiling aseprite for macos
+      run: |
+        cd aseprite
+        mkdir build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -G Ninja ..
+        ninja aseprite
+    - name: archive bin
+      run: |
+        cd aseprite/build/bin
+        7z -tzip a aseprite-macos.zip *
+        cd ../../..
+        mv aseprite/build/bin/aseprite-macos.zip .
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+          path: aseprite-macos.zip        
   Upload:
-    needs: [build-win, build-linux]
+    needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
     - name: Download a Build Artifact
@@ -88,17 +117,26 @@ jobs:
         curl -sL https://git.io/file-transfer | sh
         ./transfer wet artifact/aseprite-win.zip
         ./transfer wet artifact/aseprite-linux.zip
+        ./transfer wet artifact/aseprite-macos.zip
+    - name: Get current time
+      uses: srfrnk/current-time@master
+      id: current-time
+      with:
+        format: MMMM Do YYYY, h:mm:ss a
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          tag_name: v$da
-          release_name: aseprite v$da
+          tag_name: ${{ steps.current-time.outputs.formattedTime }}
+          release_name: aseprite v${{ steps.current-time.outputs.formattedTime }}
           draft: false
+          body: |
+            Unofficial dev release.
+            Support aseprite author at https://www.aseprite.org
           prerelease: false
-    - name: Upload Release Asset
+    - name: Windows Package upload to release
       uses: actions/upload-release-asset@v1
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -107,7 +145,7 @@ jobs:
           asset_path: artifact/aseprite-win.zip
           asset_name: aseprite-win.zip
           asset_content_type: application/zip
-    - name: Upload Release Asset
+    - name: linux Package upload to release
       uses: actions/upload-release-asset@v1
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -115,4 +153,13 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: artifact/aseprite-linux.zip
           asset_name: aseprite-linux.zip
+          asset_content_type: application/zip
+    - name: Macos Package upload to release
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: aseprite-macos.zip
+          asset_name: aseprite-macos.zip
           asset_content_type: application/zip
