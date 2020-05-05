@@ -15,6 +15,6 @@
 
 如果不想在Release里面下载
 
-请在[log](https://github.com/Insouciant21/action_aseprite/actions)自行寻找WeTranfers的链接
+请在[log](https://github.com/Insouciant21/action_aseprite/actions)自行寻找WeTransfer的链接(因为懒得找bushi
 
-有能力者可以前往[Aseprite网站](https://aseprite.org/#buy)购买
+有能力者可以前往[Aseprite网站](https://aseprite.org/#buy)购买支持
