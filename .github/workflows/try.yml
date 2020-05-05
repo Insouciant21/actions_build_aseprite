@@ -71,7 +71,7 @@ jobs:
            cd aseprite/build/bin
            7z -tzip a aseprite-linux.zip *
            cd ../../..
-           mv aseprite/build/bin/aseprite-linux.zip 
+           mv aseprite/build/bin/aseprite-linux.zip .
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
