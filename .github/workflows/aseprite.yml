@@ -6,6 +6,7 @@ jobs:
   build-win:
     runs-on: windows-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@v1
       with:
@@ -21,6 +22,7 @@ jobs:
     - name: wget install
       run: choco install wget
     - name: clone aseprite
+      run: |
         git clone --recursive https://github.com/aseprite/aseprite.git
         cd aseprite
         mkdir build
@@ -40,7 +42,7 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
     - name: archive bin
-      run: |
+      run: |      
         cd aseprite\build\bin
         7z -tzip a aseprite-win.zip *
         cd ..\..\..
@@ -52,6 +54,7 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Install dependencies
         run: sudo apt-get install -y g++ cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
       - name: Download skia
@@ -80,6 +83,7 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
+    - uses: actions/checkout@v2
     - name: clone aseprite source
       run: git clone --recursive https://github.com/aseprite/aseprite.git
     - name: download skia
