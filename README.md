@@ -17,4 +17,4 @@
 
 请在[log](https://github.com/Insouciant21/action_aseprite/actions)自行寻找WeTranfers的链接
 
-有能力者可以前往[Aseprite网站](https://aseprite.org)购买
+有能力者可以前往[Aseprite网站](https://aseprite.org/#buy)购买
