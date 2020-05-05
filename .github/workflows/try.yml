@@ -1,11 +1,116 @@
-name: ls linux
+name: Auto build aseprite for Windows and Linux
 on:
-   push
+  watch:
+    type: [started]
 jobs:
+  build-win:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@v1
+      with:
+        version: 1.10.0
+        dest: ninja_bin
+        platform: win
+    - name: cmake-configure
+      uses: snickerbockers/cmake-configure@prerel1
+    - name: Enable Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1.2.0
+      with:
+        arch: x64
+    - name: Initialize
+      run: |
+        choco install wget
+        git clone --recursive https://github.com/aseprite/aseprite.git  
+        cd aseprite
+        git submodule update --init --recursive
+        mkdir build
+        cd ..      
+        wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
+        7z x skia.zip -y -oskia
+    - name: Enable Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1.2.0
+      with:
+        arch: x64
+        sdk: 10.0.18362.0
+    - name: Build aseprite and archive it
+      run: |
+        cd aseprite
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
+        ninja aseprite
+        cd bin
+        7z -tzip a aseprite-win.zip *
+        cd ..\..\..
+        mv aseprite\build\bin\aseprite-win.zip .
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: aseprite-win.zip
   build-linux:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
+        run: sudo apt-get install -y g++ cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
+      - name: Download skia
         run: |
-          pwd
-          ls
+          wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Linux-Release-x64.zip -O skia.zip
+          7z x skia.zip -y -oskia
+      - name: Compiling aseprite for linux
+        run: |
+           cd aseprite
+           mkdir build
+           cd build
+           cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=/home/runner/work/action_aseprite/action_aseprite/skia -DSKIA_LIBRARY_DIR=/home/runner/work/action_aseprite/action_aseprite/skia/out/Release-x64 -G Ninja ..
+           ninja aseprite
+      - name: archive bin
+        run: |
+           cd aseprite/build/bin
+           7z -tzip a aseprite-linux.zip *
+           cd ../../..
+           mv aseprite/build/bin/aseprite-linux.zip 
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: aseprite-linux.zip
+  Upload:
+    needs: [build-win,build-linux]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2
+    - name: Upload to Cloud
+      run: |
+        da="date +%F"
+        curl -sL https://git.io/file-transfer | sh
+        ./transfer wet artifact/aseprite-win.zip
+        ./transfer wet artifact/aseprite-linux.zip
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@latest
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          tag_name: v$da
+          release_name: aseprite v$da
+          draft: false
+          prerelease: false
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifact/aseprite-win.zip
+          asset_name: aseprite-win.zip
+          asset_content_type: application/zip
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: artifact/aseprite-linux.zip
+          asset_name: aseprite-linux.zip
+          asset_content_type: application/zip
