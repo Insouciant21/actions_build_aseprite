@@ -1,4 +1,4 @@
-name: Auto build aseprite for Windows and Linux
+name: auto build aseprite
 on:
   watch:
     type: [started]
