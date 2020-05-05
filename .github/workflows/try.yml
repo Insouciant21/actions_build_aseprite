@@ -42,9 +42,22 @@ jobs:
         nmake
         cd ..\..
         7z -tzip a aseprite.zip aseprite\*
-    - name: Upload GSI to BitSend
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: aseprite.zip
+  Upload:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2
+    - name: Upload to Cloud
       run: |
+        ls
         curl -sL https://git.io/file-transfer | sh
-        ./transfer bit aseprite.zip
+        ./transfer wet aseprite.zip
         ./transfer arp aseprite.zip
+        ./transfer bit aseprite.zip
         
+      
+      
