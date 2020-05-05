@@ -40,7 +40,7 @@ jobs:
         cd aseprite
         mkdir build 
         cd build
-        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -D CMAKE_IGNORE_PATH=C:/ProgramData/chocolatey/bin/ -G Ninja ..
+        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
         cd ..\..
         7z -tzip a aseprite.zip aseprite\build\bin\*
