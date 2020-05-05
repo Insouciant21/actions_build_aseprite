@@ -31,7 +31,7 @@ jobs:
           F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       uses: actions/create-release@v1.0.0
       with:
-          tag_name: $F_TIME
-          release_name: Release $F_TIME
+          tag_name: ${{ steps.current-time.outputs.formattedTime }}
+          release_name: Release ${{ steps.current-time.outputs.formattedTime }}
           draft: false
           prerelease: false
