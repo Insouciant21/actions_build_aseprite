@@ -79,6 +79,7 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
+    - uses: actions/checkout@v2
     - name: clone aseprite source
       run: git clone --recursive https://github.com/aseprite/aseprite.git
     - name: download skia
@@ -102,7 +103,7 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-          path: aseprite-macos.zip        
+          path: aseprite-macos.zip  
   Upload:
     needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
@@ -151,13 +152,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: artifact/aseprite-linux.zip
           asset_name: aseprite-linux.zip
-          asset_content_type: application/zip
-    - name: Macos Package upload to release
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: aseprite-macos.zip
-          asset_name: aseprite-macos.zip
           asset_content_type: application/zip
