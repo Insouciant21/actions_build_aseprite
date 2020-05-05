@@ -57,6 +57,8 @@ jobs:
         run: |
           wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Linux-Release-x64.zip -O skia.zip
           7z x skia.zip -y -oskia
+      - name: Clone aseprite
+        run: git clone --recursive https://github.com/aseprite/aseprite.git
       - name: Compiling aseprite for linux
         run: |
            cd aseprite
