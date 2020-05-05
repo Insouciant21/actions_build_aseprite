@@ -127,7 +127,7 @@ jobs:
       uses: srfrnk/current-time@master
       id: current-time
       with:
-        format: YYYY/MM/DD.kk:mm:ss
+        format: YYMMDD.kk:m:s
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
