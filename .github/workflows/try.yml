@@ -7,7 +7,9 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    
     steps:
+    - shell: powershell
     - uses: actions/checkout@v2
     - name: Enable Developer Command Prompt
       uses: ilammy/msvc-dev-cmd@v1.2.0
@@ -28,6 +30,7 @@ jobs:
         args: install 7zip wget
     - name: Initialize environment
       run: |
+        where cl
         git clone --recursive https://github.com/aseprite/aseprite.git  
         cd aseprite
         git submodule update --init --recursive
@@ -39,6 +42,7 @@ jobs:
         cd aseprite
         mkdir build 
         cd build
+        where cl
         set cc=CL
         set CXX=CL
         cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -G Ninja ..
