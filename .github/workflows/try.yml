@@ -9,10 +9,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.2.0
-      with:
-        arch: x64
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@v1
       with:
@@ -26,6 +22,10 @@ jobs:
       with:
       # Arguments to pass to Chocolatey
         args: install 7zip wget
+    - name: Enable Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1.2.0
+      with:
+        arch: x64
     - name: Initialize environment
       run: |
         where cl
