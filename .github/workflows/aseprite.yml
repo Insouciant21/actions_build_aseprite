@@ -2,6 +2,8 @@ name: auto build aseprite
 on:
   watch:
     type: [started]
+  schedule:
+    - cron:
 jobs:
   build-win:
     runs-on: windows-latest
@@ -125,7 +127,7 @@ jobs:
       uses: srfrnk/current-time@master
       id: current-time
       with:
-        format: YYYY/MM/DD
+        format: YYYY/MM/DD.kk:mm:ss
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
