@@ -17,17 +17,13 @@ jobs:
         platform: win
     - name: cmake-configure
       uses: snickerbockers/cmake-configure@prerel1
-    - name: choco
-      uses: crazy-max/ghaction-chocolatey@v1.1.0
-      with:
-      # Arguments to pass to Chocolatey
-        args: install 7zip wget
     - name: Enable Developer Command Prompt
       uses: ilammy/msvc-dev-cmd@v1.2.0
       with:
         arch: x64
     - name: Initialize environment
       run: |
+        choco install wget
         where cl
         git clone --recursive https://github.com/aseprite/aseprite.git  
         cd aseprite
