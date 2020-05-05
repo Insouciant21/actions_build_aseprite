@@ -75,7 +75,7 @@ jobs:
         with:
           path: aseprite-linux.zip
   Upload:
-    needs: [build-win,build-linux]
+    needs: [build-win, build-linux]
     runs-on: ubuntu-latest
     steps:
     - name: Download a Build Artifact
