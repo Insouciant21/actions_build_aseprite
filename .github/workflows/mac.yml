@@ -13,7 +13,7 @@ jobs:
       run: git clone --recursive https://github.com/aseprite/aseprite.git
     - name: download skia
       run: |
-        brew install p7zip wget
+        brew install p7zip wget ninja
         wget -O skia.zip 'https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-macOS-Release-x64.zip'
         7z x skia.zip -y -oskia
     - name: Compiling aseprite for macos
