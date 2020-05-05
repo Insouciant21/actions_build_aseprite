@@ -19,13 +19,19 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Get current time
+      uses: srfrnk/current-time@master
+      id: current-time
+      with:
+        format: YYYYMMDD
     - name: createReleaseWin
       id: createReleaseWin
       env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
       uses: actions/create-release@v1.0.0
       with:
-          tag_name: ${{ github.event.comment.created_at }}
-          release_name: Release ${{ github.event.comment.created_at }}
+          tag_name: $F_TIME
+          release_name: Release $F_TIME
           draft: false
           prerelease: false
