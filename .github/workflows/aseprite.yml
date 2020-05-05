@@ -80,7 +80,6 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
     - name: clone aseprite source
       run: git clone --recursive https://github.com/aseprite/aseprite.git
     - name: download skia
