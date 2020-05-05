@@ -40,6 +40,7 @@ jobs:
         cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
     - name: archive bin
+      run: |
         cd aseprite\build\bin
         7z -tzip a aseprite-win.zip *
         cd ..\..\..
@@ -79,7 +80,6 @@ jobs:
   build-macos:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
     - name: clone aseprite source
       run: git clone --recursive https://github.com/aseprite/aseprite.git
     - name: download skia
@@ -103,7 +103,7 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-          path: aseprite-macos.zip  
+          path: aseprite-macos.zip        
   Upload:
     needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
@@ -152,4 +152,13 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: artifact/aseprite-linux.zip
           asset_name: aseprite-linux.zip
+          asset_content_type: application/zip
+    - name: Macos Package upload to release
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: aseprite-macos.zip
+          asset_name: aseprite-macos.zip
           asset_content_type: application/zip
