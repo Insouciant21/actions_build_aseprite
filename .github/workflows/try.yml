@@ -46,7 +46,10 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: aseprite.zip
+  Upload:
+    needs: [build]
     runs-on: ubuntu-latest
+    steps:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v2
     - name: Upload to Cloud
