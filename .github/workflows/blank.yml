@@ -19,17 +19,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Variables
-      run: |
-        da=`data +%F`
-        echo $da
     - name: createReleaseWin
       id: createReleaseWin
-      env:
+      env: |
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          da: `date +%F`
       uses: actions/create-release@v1.0.0
       with:
-          tag_name: ${{ da }}
-          release_name: Release ${{ da }}
+          tag_name: $da
+          release_name: Release $da
           draft: false
           prerelease: false
