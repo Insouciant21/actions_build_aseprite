@@ -15,4 +15,4 @@
 
 如果不想在Release里面下载
 
-请在log自行寻找WeTranfers的链接
+请在[log](https://github.com/Insouciant21/action_aseprite/actions)自行寻找WeTranfers的链接
