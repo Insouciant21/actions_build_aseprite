@@ -56,8 +56,15 @@ jobs:
       uses: actions/download-artifact@v2
     - name: Upload to Cloud
       run: |
-        ls
+        da=date
         curl -sL https://git.io/file-transfer | sh
         ./transfer wet artifact/aseprite.zip
-        ./transfer arp artifact/aseprite.zip
-        ./transfer bit artifact/aseprite.zip
+    - name: Release Creator
+      uses: alice-biometrics/release-creator@v1.0.4
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        version: $da
+        description: Built on $da
+        branch: master
+        draft: false
+        prerelease: false
