@@ -1,12 +1,10 @@
-# 利用Github Action进行aseprite的编译
+# 利用Github Action自动构建Aseprite
 [![auto build aseprite](https://github.com/Insouciant21/action_aseprite/workflows/auto%20build%20aseprite/badge.svg)](https://github.com/Insouciant21/action_aseprite/actions)
 [![](https://data.jsdelivr.com/v1/package/gh/insouciant21/action_aseprite/badge)](https://www.jsdelivr.com/package/gh/insouciant21/action_aseprite)
 
-## 编译详情
+## 详情
 
-按下Star就会开始立即构建<sup>右上角小星星啦</sup>
-
-默认是每周日UTC 0:00时自动更新<sub>即北京时间早上8点</sub>
+默认是每周日UTC 0:00时自动开始构建<sub>即北京时间早上8点</sub>
 
 每次构建大约17分钟
 
