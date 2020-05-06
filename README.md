@@ -6,7 +6,7 @@
 
 自动进行Windows,Linux,Mac三个平台的编译
 
-##使用方法：
+## 使用方法：
 Windows端直接双击打开
 
 Linux端（目前只测试过Ubuntu）:
