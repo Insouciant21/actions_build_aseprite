@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: sudo apt install -y g++ cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev clang-9
+        run: sudo apt install -y cmake ninja-build libxcursor-dev libxi-dev libgl1-mesa-dev
       - run: echo "::set-output name=action_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases | jq '.[0] | .assets[0] | .browser_download_url' | tr -d '"')"
         id: ase
       - name: Clone aseprite source
