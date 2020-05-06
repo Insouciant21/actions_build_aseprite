@@ -86,13 +86,10 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - run: echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
-      id: ase
     - name: Clone aseprite source
       run: |
         brew install p7zip ninja
-        wget -O source.zip ${{ steps.ase.outputs.action_ase }}
-        7z x source.zip -y -oaseprite
+        git clone --recursive https://github.com/aseprite/aseprite.git
     - name: Download compiled skia
       run: |
         wget -O skia.zip 'https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-macOS-Release-x64.zip'
