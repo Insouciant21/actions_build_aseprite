@@ -22,9 +22,8 @@ jobs:
         version: 1.10.0
         dest: ninja_bin
         platform: win
-    - name: env
+    - run: curl -s https://api.github.com/repos/aseprite/aseprite/releases | jq '.[0] | .assets[0] | .browser_download_url' | tr -d '"'
       id: late
-      run: curl -s https://api.github.com/repos/aseprite/aseprite/releases | jq '.[0] | .assets[0] | .browser_download_url' | tr -d '"'
     - name: Clone aseprite source
       run: |
         echo  ${{ steps.late.outputs.action_late }}
