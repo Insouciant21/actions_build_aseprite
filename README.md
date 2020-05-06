@@ -8,6 +8,8 @@
 
 每次构建大约17分钟
 
+此处均为64位，故不做标记
+
 ## 下载
 
 编译的文件会在[Release](https://github.com/Insouciant21/action_aseprite/releases/latest)里
