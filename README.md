@@ -17,7 +17,7 @@
 提供其他下载链接(上传后七天过期)<sub>(WeTransfer)</sub>
 
 链接可在[log](https://github.com/Insouciant21/action_aseprite/actions)中找到
-<code>
+<pre>
   
   action中找到最新的成功构建
   
@@ -29,7 +29,7 @@
   
   https://we.tl/** 即为WeTransfer地址
   
-</code>
+</pre>
 
 ## 使用方法：
 Windows端直接双击打开<code>aseprite.exe</code>
