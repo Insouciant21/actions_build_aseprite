@@ -1,0 +1,49 @@
+name: try speed up
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build-win:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Ninja
+      uses: ashutoshvarma/setup-ninja@v1
+      with:
+        version: 1.10.0
+        dest: ninja_bin
+        platform: win
+    - name: Clone aseprite source
+      shell: cmd
+      run: |
+        git clone --recursive https://github.com/aseprite/aseprite.git
+        cd aseprite
+        mkdir build
+    - name: Download compiled skia
+      run: |
+        iwr -outf skia.zip https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip
+        7z x skia.zip -y -oskia
+    - name: Enable Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1.2.0
+      with:
+        arch: x64
+        sdk: 10.0.18362.0
+    - name: Compiling aseprite for Windows
+      shell: cmd
+      run: |
+        cd aseprite
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
+        ninja aseprite
+    - name: Archive bin
+      run: |
+        cd aseprite\build\bin
+        7z -tzip a aseprite-win.zip * -mx0
+        cd ..\..\..
+        mv aseprite\build\bin\aseprite-win.zip .
+    - name: Upload Windows artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: aseprite-win.zip
