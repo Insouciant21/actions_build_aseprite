@@ -18,6 +18,7 @@
 
 链接可在[log](https://github.com/Insouciant21/action_aseprite/actions)中找到
 <code>
+  
   action中找到最新的成功构建
   
   左边Upload
@@ -27,6 +28,7 @@
   其中有类似 Download Link: https://we.tl/ 的结构
   
   https://we.tl/** 即为WeTransfer地址
+  
 </code>
 
 ## 使用方法：
