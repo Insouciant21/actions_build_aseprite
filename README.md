@@ -9,10 +9,9 @@
 ## 使用方法：
 Windows端直接双击打开
 
-Linux端（目前只测试过Ubuntu）:
-<code>./aseprite</code>
+Linux端（目前只测试过Ubuntu）:<code>./aseprite</code>
 
-（目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)或是issues给我
+（目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)给我或是提交issues）
 
 ## 编译详情
 
