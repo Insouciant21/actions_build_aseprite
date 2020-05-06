@@ -6,6 +6,12 @@
 
 自动进行Windows,Linux,Mac三个平台的编译
 
+##使用方法：
+Windows端直接双击打开
+
+Linux端（目前只测试过Ubuntu）:
+<code>./aseprite</code>
+
 （目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)或是issues给我
 
 按下Star就会开始构建，默认情况下会在每周日更新
