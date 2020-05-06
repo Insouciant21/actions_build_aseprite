@@ -1,5 +1,7 @@
 name: auto build aseprite
 on:
+  watch:
+    type: [started]
   schedule:
     - cron: '0 0 * * 0'
 jobs:
