@@ -16,8 +16,10 @@ jobs:
         dest: ninja_bin
         platform: win
     - name: Clone aseprite source
-      shell: cmd
       run: |
+        git config --global core.preloadindex true
+        git config --global core.fscache true
+        git config --global gc.auto 256
         git clone --recursive https://github.com/aseprite/aseprite.git
         cd aseprite
         mkdir build
@@ -31,7 +33,6 @@ jobs:
         arch: x64
         sdk: 10.0.18362.0
     - name: Compiling aseprite for Windows
-      shell: cmd
       run: |
         cd aseprite
         cd build
