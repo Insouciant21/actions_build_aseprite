@@ -14,14 +14,21 @@ Linux端（目前只测试过Ubuntu）:
 
 （目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)或是issues给我
 
+## 编译详情
+
 按下Star就会开始构建，默认情况下会在每周日更新
 
 每次构建大约17分钟
+
+## 下载
 
 编译的文件会在Release里
 
 如果不想在Release里面下载
 
 请在[log](https://github.com/Insouciant21/action_aseprite/actions)自行寻找WeTransfer的链接(因为我懒得找（bushi
+
+## 官方
+这是从[官方源码](https://github.com/aseprite)自动编译而来的
 
 有能力者可以前往[Aseprite网站](https://aseprite.org/#buy)购买支持
