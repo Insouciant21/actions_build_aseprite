@@ -17,11 +17,9 @@ jobs:
         platform: win
     - name: Clone aseprite source
       run: |
-        git config --global core.preloadindex true
-        git config --global core.fscache true
-        git config --global gc.auto 256
-        git clone --recursive https://github.com/aseprite/aseprite.git
+        git clone https://github.com/aseprite/aseprite.git
         cd aseprite
+        git submodule update --init --recursive
         mkdir build
     - name: Download compiled skia
       run: |
