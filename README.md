@@ -6,18 +6,11 @@
 
 自动进行Windows,Linux,Mac三个平台的编译
 
-## 使用方法：
-Windows端直接双击打开
-
-Linux端（目前只测试过Ubuntu）:<code>./aseprite</code>
-
-（目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)给我或是提交issues）
-
 ## 编译详情
 
 按下Star就会开始构建
 
-默认是每周日UTC 0:00时自动更新（即北京时间早上8点）
+默认是每周日UTC 0:00时自动更新<sub>即北京时间早上8点</sub>
 
 每次构建大约17分钟
 
@@ -28,6 +21,14 @@ Linux端（目前只测试过Ubuntu）:<code>./aseprite</code>
 如果不想在Release里面下载
 
 请在[log](https://github.com/Insouciant21/action_aseprite/actions)自行寻找WeTransfer的链接(因为我懒得找（bushi
+
+
+## 使用方法：
+Windows端直接双击打开<code>aseprite.exe</code>
+
+Linux端（目前只测试过Ubuntu）:<code>./aseprite</code>
+
+（目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)给我或是提交issues）
 
 ## 官方
 这是从[官方源码](https://github.com/aseprite)自动编译而来的
