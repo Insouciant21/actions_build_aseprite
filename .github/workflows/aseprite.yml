@@ -15,23 +15,14 @@ jobs:
         version: 1.10.0
         dest: ninja_bin
         platform: win
-    - name: cmake-configure
-      uses: snickerbockers/cmake-configure@prerel1
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.2.0
-      with:
-        arch: x64
     - name: Clone aseprite source
       run: |
         git clone --recursive https://github.com/aseprite/aseprite.git
         cd aseprite
         mkdir build
     - name: Download compiled skia
-      shell: powershell
       run: |
-        iwr -useb get.scoop.sh | iex
-        scoop install wget
-        wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip -O skia.zip
+        iwr -outf skia.zip https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip
         7z x skia.zip -y -oskia
     - name: Enable Developer Command Prompt
       uses: ilammy/msvc-dev-cmd@v1.2.0
@@ -59,7 +50,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: sudo apt-get install -y g++ cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
+        run: sudo apt install -y g++ cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev clang-9
       - name: Download compiled skia
         run: |
           wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Linux-Release-x64.zip -O skia.zip
@@ -119,7 +110,6 @@ jobs:
       uses: actions/download-artifact@v2
     - name: Upload to wetransfer
       run: |
-        da="date +%F"
         curl -sL https://git.io/file-transfer | sh
         ./transfer wet artifact/aseprite-win.zip
         ./transfer wet artifact/aseprite-linux.zip
