@@ -1,5 +1,5 @@
 # 利用Github Action进行aseprite的编译
-![auto build aseprite](https://github.com/Insouciant21/action_aseprite/workflows/auto%20build%20aseprite/badge.svg)
+[![auto build aseprite](https://github.com/Insouciant21/action_aseprite/workflows/auto%20build%20aseprite/badge.svg)](https://github.com/Insouciant21/action_aseprite/actions)
 [![](https://data.jsdelivr.com/v1/package/gh/insouciant21/action_aseprite/badge)](https://www.jsdelivr.com/package/gh/insouciant21/action_aseprite)
 
 使用Github Action来进行aseprite的编译
