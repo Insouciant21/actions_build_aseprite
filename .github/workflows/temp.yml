@@ -12,45 +12,35 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-win:
-    runs-on: windows-latest
+  build-macos:
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup Ninja
-      uses: ashutoshvarma/setup-ninja@v1
-      with:
-        version: 1.10.0
-        dest: ninja_bin
-        platform: win
-    - run: echo "::set-output name=action_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases | jq '.[0] | .assets[0] | .browser_download_url' | tr -d '"')"
+    - run: echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
       id: ase
     - name: Clone aseprite source
       run: |
-        iwr -outf source.zip ${{ steps.ase.outputs.action_ase }}
+        brew install p7zip ninja
+        wget -O source.zip ${{ steps.ase.outputs.action_ase }}
         7z x source.zip -y -oaseprite
     - name: Download compiled skia
       run: |
-        iwr -outf skia.zip https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip
+        wget -O skia.zip 'https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-macOS-Release-x64.zip'
         7z x skia.zip -y -oskia
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.2.0
-      with:
-        arch: x64
-        sdk: 10.0.18362.0
-    - name: Compiling aseprite for Windows
+    - name: Compiling aseprite for macos
       run: |
         cd aseprite
         mkdir build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
+        cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -G Ninja ..
         ninja aseprite
     - name: Archive bin
       run: |
-        cd aseprite\build\bin
-        7z -tzip a aseprite-win.zip * -mx0
-        cd ..\..\..
-        mv aseprite\build\bin\aseprite-win.zip .
-    - name: Upload Windows artifact
+        cd aseprite/build/bin
+        7z -tzip a aseprite-macos.zip * -mx0
+        cd ../../..
+        mv aseprite/build/bin/aseprite-macos.zip .
+    - name: Upload macos artifact
       uses: actions/upload-artifact@v2
       with:
-        path: aseprite-win.zip
+          path: aseprite-macos.zip
