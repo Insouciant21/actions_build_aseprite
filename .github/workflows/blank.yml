@@ -22,6 +22,11 @@ jobs:
         version: 1.10.0
         dest: ninja_bin
         platform: win
+    - run: echo ::set-output name=action_fruit::strawberry
+      id: fruit
+    - uses: actions/hello-world-javascript-action@master
+      with:
+        who-to-greet: ${{ steps.fruit.outputs.action_fruit }}
     - run: curl -s https://api.github.com/repos/aseprite/aseprite/releases | jq '.[0] | .assets[0] | .browser_download_url' | tr -d '"'
       id: late
     - name: Clone aseprite source
