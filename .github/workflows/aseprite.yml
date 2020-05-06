@@ -20,7 +20,7 @@ jobs:
     - name: Clone aseprite source
       run: |
         iwr -outf source.zip ${{ steps.ase.outputs.action_ase }}
-        7z x source.zip -y -o aseprite
+        7z x source.zip -y -oaseprite
     - name: Download compiled skia
       run: |
         iwr -outf skia.zip https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Windows-Release-x64.zip
