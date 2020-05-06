@@ -58,6 +58,9 @@ jobs:
       - name: Clone aseprite source
         run: git clone --recursive https://github.com/aseprite/aseprite.git
       - name: Compiling aseprite for linux
+        env:
+          CC: /usr/bin/clang-9
+          CXX: /usr/bin/clang++-9
         run: |
            cd aseprite
            mkdir build
