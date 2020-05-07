@@ -1,10 +1,8 @@
 name: auto build aseprite
 on:
-  watch:
   push:
-    types: [started]
-  schedule:
-    - cron: '0 0 * * 5'
+    paths:
+      - 'release-versions/*'
 jobs:
   build-win:
     runs-on: windows-latest
@@ -133,7 +131,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           tag_name: ${{ steps.tags.outputs.ase_tag }}
-          release_name: aseprite ${{ steps.tags.outputs.ase_tag }} - ${{ steps.current-time.outputs.formattedTime }}
+          release_name: aseprite ${{ steps.tags.outputs.ase_tag }}
           draft: false
           body: |
             Unofficial dev release.
