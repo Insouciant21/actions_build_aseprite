@@ -1,8 +1,7 @@
 name: Build aseprite from source
 on:
-  push:
-    paths:
-      - 'release-versions/version.txt'
+  repository_dispatch:
+    types: [new-release]
 jobs:
   build-win:
     runs-on: windows-latest
