@@ -4,7 +4,7 @@ on:
   push:
     types: [started]
   schedule:
-    - cron:  '0 9 * * *'
+    - cron:  '0 10 * * *'
 jobs:
   get-version:
     runs-on: ubuntu-latest
