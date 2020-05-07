@@ -14,23 +14,6 @@
 
 编译的文件会在[Release](https://github.com/Insouciant21/action_aseprite/releases/latest)里
 
-提供其他下载链接(上传后七天过期)<sub>(WeTransfer)</sub>
-
-链接可在[log](https://github.com/Insouciant21/action_aseprite/actions)中找到
-<pre>
-  
-  action中找到最新的成功构建
-  
-  左边Upload
-  
-  找到Upload to wetransfer
-  
-  其中有类似 Download Link: https://we.tl/ 的结构
-  
-  https://we.tl/** 即为WeTransfer地址
-  
-</pre>
-
 ## 使用方法：
 Windows端直接双击打开<code>aseprite.exe</code>
 
