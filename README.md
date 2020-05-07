@@ -4,7 +4,7 @@
 
 ## 详情
 
-默认随着[官方Releases](github.com/aseprite/aseprite/releases)上的源码更新
+默认随着[官方Releases](github.com/aseprite/aseprite/releases)上的源码更新，每天下午18时检查一次
 
 每次构建大约15分钟
 
