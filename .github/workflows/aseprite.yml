@@ -1,9 +1,7 @@
 name: auto build aseprite
 on:
-  watch:
-    type: [started]
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 0 * * 5'
 jobs:
   build-win:
     runs-on: windows-latest
@@ -118,12 +116,6 @@ jobs:
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v2
-    - name: Upload to wetransfer
-      run: |
-        curl -sL https://git.io/file-transfer | sh
-        ./transfer wet artifact/aseprite-win.zip
-        ./transfer wet artifact/aseprite-linux.zip
-        ./transfer wet artifact/aseprite-macos.zip
     - name: Get current time
       uses: srfrnk/current-time@master
       id: current-time
