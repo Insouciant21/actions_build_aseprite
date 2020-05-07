@@ -1,0 +1,24 @@
+name: Get latest release version
+on:
+  schedule:
+    - cron:  '0 9 * * *'
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.REPO_SCOPED_TOKEN }}
+      - name: Fetch release version
+        run: |
+          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+      - name: Commit latest release version
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'Insouciant21'
+          git config --global user.email '2964318290@qq.com@users.noreply.github.com'
+          git commit -am "New release version"
+          git push
