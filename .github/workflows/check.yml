@@ -19,6 +19,8 @@ jobs:
       - name: Commit version
         if: steps.git-check.outputs.modified == 'true'
         run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git commit -m "New release version"
       - name: Push changes
         uses: ad-m/github-push-action@master
