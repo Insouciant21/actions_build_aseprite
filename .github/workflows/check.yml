@@ -16,10 +16,8 @@ jobs:
       - name: Check for modified files
         id: git-check
         run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
-      - name: Commit latest release version
+      - name: Push changes
         if: steps.git-check.outputs.modified == 'true'
-        run: |
-          git config --global user.name 'Insouciant21'
-          git config --global user.email '2964318290@qq.com@users.noreply.github.com'
-          git commit -am "New release version"
-          git push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
