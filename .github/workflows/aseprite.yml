@@ -1,4 +1,4 @@
-name: auto build aseprite
+name: Build aseprite from source
 on:
   push:
     paths:
