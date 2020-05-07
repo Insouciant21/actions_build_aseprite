@@ -121,7 +121,7 @@ jobs:
       id: current-time
       with:
         format: YY/MM/DD
-    - name: Create daily release
+    - name: Weekly releases
       id: create_release
       uses: actions/create-release@latest
       env:
