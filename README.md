@@ -1,6 +1,6 @@
 # 利用Github Action自动构建Aseprite
 [![每日检查](https://github.com/Insouciant21/action_aseprite/workflows/Get%20latest%20release%20version/badge.svg)](https://github.com/Insouciant21/action_aseprite/actions)
-[![Build aseprite](https://github.com/Insouciant21/action_aseprite/workflows/Build%20aseprite%20from%20source/badge.svg)](https://github.com/Insouciant21/action_aseprite/actions)
+[![Build aseprite](https://github.com/Insouciant21/action_aseprite/workflows/Build%20aseprite/badge.svg)](https://github.com/Insouciant21/action_aseprite/actions)
 [![](https://data.jsdelivr.com/v1/package/gh/insouciant21/action_aseprite/badge)](https://www.jsdelivr.com/package/gh/insouciant21/action_aseprite)
 
 ## 详情
