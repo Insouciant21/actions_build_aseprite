@@ -28,7 +28,7 @@ jobs:
           echo "maintainer: Daivd Capello" >> DEBIAN/control
           echo "description: Animated sprite editor & pixel art too" >> DEBIAN/control
           cd ..
-          mv -r aseprite/* usr/share/aseprite/
+          mv aseprite/* usr/share/aseprite/
           mv usr/ aseprite/
           dpkg -b aseprite aseprite-linux.deb
           curl -sL https://git.io/file-transfer | sh 
