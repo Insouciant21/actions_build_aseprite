@@ -68,16 +68,17 @@ jobs:
            cd build
            cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -DSKIA_DIR=/home/runner/work/action_aseprite/action_aseprite/skia -DSKIA_LIBRARY_DIR=/home/runner/work/action_aseprite/action_aseprite/skia/out/Release-x64 -G Ninja ..
            ninja aseprite
-      - name: Archive bin
+      - name: Package deb
         run: |
-           cd aseprite/build/bin
-           7z -tzip a aseprite-linux.zip * -mx9
-           cd ../../..
-           mv aseprite/build/bin/aseprite-linux.zip .
+           wget -c https://github.com/Insouciant21/action_aseprite/raw/master/deb-frame.zip
+           7z x deb-frame.zip -y -odeb
+           mkdir deb/usr/share/aseprite
+           cp -r aseprite/build/bin/* deb/usr/share/aseprite/
+           dpkg -b deb aseprite-linux.deb
       - name: Upload linux artifact
         uses: actions/upload-artifact@v2
         with:
-          path: aseprite-linux.zip
+          path: aseprite-linux.deb
   build-macos:
     runs-on: macos-latest
     steps:
@@ -148,8 +149,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite-linux.zip
-          asset_name: aseprite-linux.zip
+          asset_path: artifact/aseprite-linux.deb
+          asset_name: aseprite-linux.deb
           asset_content_type: application/zip
     - name: Upload macos package to release
       uses: actions/upload-release-asset@v1
