@@ -38,7 +38,7 @@ jobs:
     - name: Archive bin
       run: |
         cd aseprite\build\bin
-        7z -tzip a aseprite-win.zip * -mx0
+        7z -tzip a aseprite-win.zip * -mx9
         cd ..\..\..
         mv aseprite\build\bin\aseprite-win.zip .
     - name: Upload Windows artifact
@@ -71,7 +71,7 @@ jobs:
       - name: Archive bin
         run: |
            cd aseprite/build/bin
-           7z -tzip a aseprite-linux.zip * -mx0
+           7z -tzip a aseprite-linux.zip * -mx9
            cd ../../..
            mv aseprite/build/bin/aseprite-linux.zip .
       - name: Upload linux artifact
@@ -100,7 +100,7 @@ jobs:
     - name: Archive bin
       run: |
         cd aseprite/build/bin
-        7z -tzip a aseprite-macos.zip * -mx0
+        7z -tzip a aseprite-macos.zip * -mx9
         cd ../../..
         mv aseprite/build/bin/aseprite-macos.zip .
     - name: Upload macos artifact
