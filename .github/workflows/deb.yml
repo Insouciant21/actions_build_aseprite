@@ -23,7 +23,7 @@ jobs:
           cd aseprite/
           mkdir DEBIAN
           echo "package: Aseprite" > DEBIAN/control
-          echo "version: ${{ steps.ver.outputs.ase_ver }}" >> DEBIAN/control
+          echo "version: 1.2.18" >> DEBIAN/control
           echo "architecture: amd64" >> DEBIAN/control
           echo "maintainer: Daivd Capello" >> DEBIAN/control
           echo "description: Animated sprite editor & pixel art too" >> DEBIAN/control
