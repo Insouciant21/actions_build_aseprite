@@ -29,9 +29,6 @@ jobs:
           git config --global commit.gpgsign true
           git config --global user.email ${{ secrets.owner_email }}
           git config --global user.name "Insouciant21"
-          git add release-versions/version.txt
-          git commit -S -m "update local version"
-          git push
       - name: Check for new version
         id: git-check
         run: echo ::set-output name=modified::$(if diff release-versions/version.txt release-versions/version-check.txt -q; then echo "false"; fi)
@@ -39,6 +36,7 @@ jobs:
         if: steps.git-check.outputs.modified != 'false'
         run: |
           curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
+          rm -rf release-versions/versions-check.txt
           git add .
           git commit -S -m "New release version"
           git push
