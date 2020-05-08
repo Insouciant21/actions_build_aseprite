@@ -1,7 +1,7 @@
 name: Build aseprite
 on:
   repository_dispatch:
-    types: [new-release]
+    types: [Build-aseprite]
 jobs:
   build-win:
     runs-on: windows-latest
@@ -123,50 +123,4 @@ jobs:
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v2
-    - name: Get current time
-      uses: srfrnk/current-time@master
-      id: current-time
-      with:
-        format: YYYY/MM/DD
-    - run: echo "::set-output name=tag_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep tag_name | grep v | cut -d '"' -f 4)"
-      id: tags
-    - name: Weekly releases
-      id: create_release
-      uses: actions/create-release@latest
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          tag_name: ${{ steps.tags.outputs.tag_ase }}
-          release_name: Aseprite ${{ steps.tags.outputs.tag_ase }}
-          draft: false
-          body: |
-            Unofficial dev release.
-            Support official version at https://www.aseprite.org/download
-          prerelease: false
-    - name: Upload Windows package to release
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite-win.zip
-          asset_name: aseprite-win.zip
-          asset_content_type: application/zip
-    - name: Upload linux package to release
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite-linux.deb
-          asset_name: aseprite-linux.deb
-          asset_content_type: application/zip
-    - name: Upload macos package to release
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite-macos.zip
-          asset_name: aseprite-macos.zip
-          asset_content_type: application/zip
+    - name: 
