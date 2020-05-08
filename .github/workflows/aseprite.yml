@@ -1,4 +1,4 @@
-name: Build aseprite from source
+name: Build aseprite
 on:
   repository_dispatch:
     types: [new-release]
