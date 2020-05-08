@@ -74,7 +74,6 @@ jobs:
            ninja aseprite
       - name: Package deb
         run: |
-           wget -c https://github.com/Insouciant21/action_aseprite/raw/master/deb-frame.zip
            7z x deb-frame.zip -y -odeb
            mkdir deb/usr/share/aseprite
            cp -r aseprite/build/bin/* deb/usr/share/aseprite/
