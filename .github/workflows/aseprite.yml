@@ -135,7 +135,7 @@ jobs:
           draft: false
           body: |
             Unofficial dev release.
-            Support official version at https://www.aseprite.org
+            Support official version at https://www.aseprite.org/download
           prerelease: false
     - name: Upload Windows package to release
       uses: actions/upload-release-asset@v1
