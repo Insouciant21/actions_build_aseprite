@@ -38,7 +38,11 @@ jobs:
     - name: Archive bin
       run: |
         cd aseprite\build\bin
-        7z -tzip a aseprite-win.zip * -mx9
+        del gen.pdb
+        del aseprite.pdb
+        del modp_b64_gen.ilk
+        del modp_b64_gen.pdb
+        7z -tzip a aseprite-win.zip * -mx0
         cd ..\..\..
         mv aseprite\build\bin\aseprite-win.zip .
     - name: Upload Windows artifact
@@ -101,7 +105,7 @@ jobs:
     - name: Archive bin
       run: |
         cd aseprite/build/bin
-        7z -tzip a aseprite-macos.zip * -mx9
+        7z -tzip a aseprite-macos.zip * -mx0
         cd ../../..
         mv aseprite/build/bin/aseprite-macos.zip .
     - name: Upload macos artifact
@@ -119,7 +123,7 @@ jobs:
       id: current-time
       with:
         format: YYYY/MM/DD
-    - run: echo "::set-output name=tag_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep tag_name | grep v | cut -d '"' -f 4 )"
+    - run: echo "::set-output name=tag_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep tag_name | grep v | cut -d '"' -f 4)"
       id: tags
     - name: Weekly releases
       id: create_release
