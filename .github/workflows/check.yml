@@ -1,5 +1,8 @@
 name: Get latest release version
 on:
+  watch:
+  push:
+    types: [started]
   schedule:
     - cron:  '0 10 * * *'
 jobs:
@@ -13,13 +16,22 @@ jobs:
       - name: Check for modified files
         id: git-check
         run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
-      - name: Commit version
+      - name: config
         if: steps.git-check.outputs.modified == 'true'
         run: |
-          git config --local user.email ${{ secrets.owner_email }}
-          git config --local user.name "Insouciant21"
+          git config --global user.email ${{ secrets.owner_email }}
+          git config --global user.name "Insouciant21"
+          git config --global commit.gpgsign true
+      - name: Verify
+        if: steps.git-check.outputs.modified == 'true'
+        uses: vchain-us/verify-action@master
+        with:
+         signerID: Insouciant21
+      - name: commmit
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
           git add .
-          git commit -m "New release version"
+          git commit -S -m "New release version"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
