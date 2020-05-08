@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download compiled files
-        run: 
+        run: |
           wget https://github.com/Insouciant21/action_aseprite/releases/latest/download/aseprite-linux.zip
           7z x aseprite-linux.zip -y -oaseprite
       - run: echo "::set-output name=ase_ver::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name")"
