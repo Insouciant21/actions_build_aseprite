@@ -14,11 +14,7 @@ jobs:
         run: |
           curl -sL https://api.github.com/repos/Insouciant21/action_aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
           curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version-check.txt
-      - name: Check for modified files
-        id: git-check
-        run: echo ::set-output name=modified::$(if git diff release-versions/version.txt release-versions/version-check.txt; then echo "false"; fi)
       - name: Import GPG
-        if: steps.git-check.outputs.modified != 'false'
         uses: crazy-max/ghaction-import-gpg@v1.4.1
         with:
           git_user_signingkey: true
@@ -28,13 +24,21 @@ jobs:
           git_committer_email: ${{ secrets.owner_email }}
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-      - name: config
-        if: steps.git-check.outputs.modified != 'false'
+      - name: commit local version
         run: |
-          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
           git config --global commit.gpgsign true
           git config --global user.email ${{ secrets.owner_email }}
           git config --global user.name "Insouciant21"
+          git add release-versions/version.txt
+          git commit -S -m "update local version"
+          git push
+      - name: Check for new version
+        id: git-check
+        run: echo ::set-output name=modified::$(if git diff release-versions/version.txt release-versions/version-check.txt; then echo "false"; fi)
+      - name: config and commit new version
+        if: steps.git-check.outputs.modified != 'false'
+        run: |
+          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
           git add .
           git commit -S -m "New release version"
           git push
