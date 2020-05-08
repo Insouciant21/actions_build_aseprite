@@ -20,7 +20,7 @@ zip文件都使用仅储存压缩
 ## 使用方法：
 Windows端直接双击打开<code>aseprite.exe</code>
 
-Linux端<sup>（目前只测试过Ubuntu）</sup>: 终端内执行 <code>sudo aseprite</code>或<code>aseprite</code><small><sub>因我电脑对Linux的兼容性极差,所以暂未测试Desktop_file</sub>
+Linux端<sup>（目前只测试过Ubuntu）</sup>: 终端内执行 <code>aseprite</code><small><sub>因我电脑对Linux的兼容性极差,所以暂未测试Desktop_file</sub>
 
 <big>（目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)给我或是提交issues）</big>
 
