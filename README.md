@@ -25,6 +25,6 @@ Linux端<sup>（目前只测试过Ubuntu）</sup>: 终端内执行 <code>sudo as
 <big>（目前Mac端暂时无人测试，如果您测试发现了问题或是正常使用可以发[邮件](mailto:2964318290@qq.com)给我或是提交issues）</big>
 
 ## 官方
-这是从[官方源码](https://github.com/aseprite)自动编译而来的dev版本<sub>软件内版本号为v1.x-dev</sub>
+这是从[官方源码](https://github.com/aseprite)自动编译而来的dev版本<sub>软件内版本号为v1.**-dev</sub>
 
 有能力者可以前往[Aseprite网站](https://aseprite.org/#buy)购买支持
