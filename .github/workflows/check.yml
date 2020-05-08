@@ -12,12 +12,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Fetch release version
         run: |
-          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
+          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version-check.txt
       - name: Check for modified files
         id: git-check
-        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+        run: echo ::set-output name=modified::$(if git diff release-versions/version.txt release-versions/version-check.txt; then echo "false"; fi)
       - name: Import GPG
-        if: steps.git-check.outputs.modified == 'true'
+        if: steps.git-check.outputs.modified != 'false'
         uses: crazy-max/ghaction-import-gpg@v1.4.1
         with:
           git_user_signingkey: true
@@ -28,8 +28,9 @@ jobs:
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       - name: config
-        if: steps.git-check.outputs.modified == 'true'
+        if: steps.git-check.outputs.modified != 'false'
         run: |
+          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
           git config --global commit.gpgsign true
           git config --global user.email ${{ secrets.owner_email }}
           git config --global user.name "Insouciant21"
@@ -37,7 +38,7 @@ jobs:
           git commit -S -m "New release version"
           git push
       - name: Repository Dispatch
-        if: steps.git-check.outputs.modified == 'true'
+        if: steps.git-check.outputs.modified != 'false'
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.work1 }}
