@@ -62,9 +62,6 @@ jobs:
           wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Linux-Release-x64.zip -O skia.zip
           7z x skia.zip -y -oskia
       - name: Compiling aseprite for linux
-        env:
-          CC: /usr/bin/clang-9
-          CXX: /usr/bin/clang++-9
         run: |
            cd aseprite
            mkdir build
