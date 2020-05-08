@@ -16,7 +16,7 @@ jobs:
         id: ver
       - name: Write control info
         run: |
-          
+          apt install tree
           mkdir usr
           mkdir usr/share
           mkdir usr/share/aseprite
@@ -30,6 +30,7 @@ jobs:
           cd ..
           mv aseprite/* usr/share/aseprite/
           mv usr/ aseprite/
+          tree aseprite/
           dpkg -b aseprite aseprite-linux.deb
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet aseprite-linux.deb
