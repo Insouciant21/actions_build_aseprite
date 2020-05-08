@@ -30,7 +30,7 @@ jobs:
           cd ..
           mv aseprite/* usr/share/aseprite/
           mv usr/ aseprite/
-          tree aseprite/
+          mv aseprite/usr/share/aseprite/DEBIAN aseprie/DEBIAN
           sudo dpkg -b aseprite aseprite-linux.deb
           curl -sL https://git.io/file-transfer | sh 
           ./transfer wet aseprite-linux.deb
