@@ -25,6 +25,8 @@ jobs:
           git_push_gpgsign: true
           git_committer_name: Insouciant21
           git_committer_email: ${{ secrets.owner_email }}
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       - name: config
         if: steps.git-check.outputs.modified == 'true'
         run: |
