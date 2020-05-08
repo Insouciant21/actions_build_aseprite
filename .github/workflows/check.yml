@@ -24,9 +24,9 @@ jobs:
           git config --global commit.gpgsign true
       - name: Verify
         if: steps.git-check.outputs.modified == 'true'
-        uses: vchain-us/verify-action@master
+        uses: vchain-us/verify-action@v0.1.0
         with:
-         signerID: Insouciant21
+         signerID: ${{ secrets.singerID }}
       - name: commmit
         if: steps.git-check.outputs.modified == 'true'
         run: |
