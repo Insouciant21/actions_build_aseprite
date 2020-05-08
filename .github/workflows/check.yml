@@ -17,6 +17,7 @@ jobs:
         id: git-check
         run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
       - name: Import GPG
+        if: steps.git-check.outputs.modified == 'true'
         uses: crazy-max/ghaction-import-gpg@v1.4.1
         with:
           git_user_signingkey: true
