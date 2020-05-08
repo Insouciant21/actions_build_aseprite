@@ -50,3 +50,9 @@ jobs:
           git add deb-frame.zip
           git commit -S -m "Update deb"
           git push
+      - name: Repository Dispatch
+        if: steps.check.outputs.diff != 'false'
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.work1 }}
+          event-type: Build-aseprite
