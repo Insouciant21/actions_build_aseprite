@@ -54,4 +54,4 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.work1 }}
-          event-type: Build-aseprite
+          event-type: Build_aseprite
