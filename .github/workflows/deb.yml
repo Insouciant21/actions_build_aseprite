@@ -12,7 +12,7 @@ jobs:
           7z x deb-frame.zip -y -odeb
           rm -rf deb-frame.zip
       - name: Get versions
-      - run: |
+        run: |
           cat deb/DEBIAN/control | grep Version | cut -d " " -f 2 > original.txt
           curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" | cut -d "v" -f 2 > source.txt
       - name: var
