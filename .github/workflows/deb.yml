@@ -1,7 +1,5 @@
 name: Update deb
 on:
-  watch:
-    types: [started]
   repository_dispatch:
      types: [new-release]
 jobs:
