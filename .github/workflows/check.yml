@@ -1,8 +1,5 @@
 name: Get latest release version
 on:
-  watch:
-  push:
-    types: [started]
   schedule:
     - cron:  '0 10 * * *'
 jobs:
