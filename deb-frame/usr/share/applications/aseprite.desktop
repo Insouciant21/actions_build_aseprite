@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=Aseprite
+Comment=Pixel Art Tool.
+GenericName=Pixel Art Tool
+Exec=sudo aseprite --no-sandbox --unity-launch
+Icon=/usr/share/aseprite/data/icons/ase256.png
+Type=Application
+StartupNotify=false
+Actions=new-empty-window;
+Keywords=aseprite;
+
+X-Desktop-File-Install-Version=0.23
+
+[Desktop Action new-empty-window]
+Name=New Empty Window
+Exec=sudo aseprite --new-window
+Icon=/usr/share/aseprite/data/icons/ase256.png
