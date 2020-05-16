@@ -7,18 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0
-      - name: Unzip
-        run: |
-          7z x deb-frame.zip -y -odeb
-          rm -rf deb-frame.zip
       - name: Get versions
         run: |
-          cat deb/DEBIAN/control | grep Version | cut -d " " -f 2 > original.txt
+          cat deb-frame/DEBIAN/control | grep Version | cut -d " " -f 2 > original.txt
           curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" | cut -d "v" -f 2 > source.txt
       - name: var
         id: var
         run: |
-          echo ::set-output name=original::$(cat deb/DEBIAN/control | grep Version | cut -d " " -f 2)
+          echo ::set-output name=original::$(cat deb-frame/DEBIAN/control | grep Version | cut -d " " -f 2)
           echo ::set-output name=source::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" | cut -d "v" -f 2)
       - name: Compare
         id: check
@@ -26,10 +22,8 @@ jobs:
       - name: Patch it
         if: steps.check.outputs.diff != 'false'
         run: |
-          cd deb/DEBIAN
+          cd deb-frame/DEBIAN
           sed  -i 's/${{ steps.var.outputs.original }}/${{ steps.var.outputs.source }}/g'  control
-          cd ../..
-          7z -tzip a deb-frame.zip deb/* -mx0
       - name: Import GPG
         if: steps.check.outputs.diff != 'false'
         uses: crazy-max/ghaction-import-gpg@v1.4.1
@@ -44,8 +38,8 @@ jobs:
       - name: Push File
         if: steps.check.outputs.diff != 'false'
         run: |
-          git add deb-frame.zip
-          git commit -S -m "Update deb"
+          git add deb-frame/
+          git commit -S -m "Update version"
           git push
       - name: Repository Dispatch
         if: steps.check.outputs.diff != 'false'
