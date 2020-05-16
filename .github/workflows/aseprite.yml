@@ -76,12 +76,11 @@ jobs:
            ninja aseprite
       - name: Package deb
         run: |
-           7z x deb-frame.zip -y -odeb
-           mkdir deb/usr/share/aseprite
+           mkdir deb-frame/usr/share/aseprite
            rm -rf aseprite/build/bin/modp_b64_gen
            rm -rf aseprite/build/bin/gen
-           cp -r aseprite/build/bin/* deb/usr/share/aseprite/
-           dpkg -b deb aseprite-linux.deb
+           cp -r aseprite/build/bin/* deb-frame/usr/share/aseprite/
+           dpkg -b deb-frame aseprite-linux.deb
       - name: Upload linux artifact
         uses: actions/upload-artifact@v2
         with:
