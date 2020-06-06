@@ -25,17 +25,14 @@ jobs:
           git_committer_email: ${{ secrets.owner_email }}
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-      - name: commit local version
-        if: steps.git-check.outputs.modified != 'false'
-        run: |
-          git config --global commit.gpgsign true
-          git config --global user.email ${{ secrets.owner_email }}
-          git config --global user.name "Insouciant21"
-      - name: config and commit new version
+      - name: Config and Commit new version
         if: steps.git-check.outputs.modified != 'false'
         run: |
           curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
           rm -rf release-versions/version-check.txt
+          git config --global commit.gpgsign true
+          git config --global user.email ${{ secrets.owner_email }}
+          git config --global user.name "Insouciant21"
           git add .
           git commit -S -m "New version Released"
           git push
