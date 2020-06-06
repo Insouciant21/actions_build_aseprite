@@ -26,4 +26,4 @@ jobs:
     - name: Run a one-line script
       run: |
         brew install grep
-        curl -s https://api.github.com/repos/aseprite/skia/releases/latest | jq '.assets[].browser_download_url' | cut -d '"' -f 2 | grep mac
+        curl -s https://api.github.com/repos/aseprite/skia/releases/latest | jq '.assets[]?.browser_download_url' | cut -d '"' -f 2 | grep mac
