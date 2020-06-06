@@ -25,8 +25,8 @@ workdir=$(pwd)
 cd aseprite
 mkdir build
 cd build
-export cc=clang-9
-export cxx=clang++-9
+export cc=/usr/bin/clang
+export cxx=/usr/bin/clang++
 cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
 ninja aseprite
 # Package
