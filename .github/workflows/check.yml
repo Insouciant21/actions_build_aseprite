@@ -1,4 +1,4 @@
-name: Get latest release version
+name: Check Versions
 on:
   schedule:
     - cron:  '0 10 * * *'
