@@ -9,8 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Fetch release version
         run: |
-          curl -sL https://api.github.com/repos/Insouciant21/action_aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.json
-          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version-check.json
+          curl -s https://api.github.com/repos/Insouciant21/action_aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.json
+          curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version-check.json
       - name: Check for new version
         id: git-check
         run: echo ::set-output name=modified::$(if diff release-versions/version.json release-versions/version-check.json -q; then echo "false"; fi)
