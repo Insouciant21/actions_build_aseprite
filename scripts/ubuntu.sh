@@ -31,6 +31,7 @@ ninja aseprite
 clear
 echo -e "\033[31mPackage\033[0m"
 cd $workdir
+pwd
 mkdir ../../deb-frame/usr/share/aseprite
 rm -rf $workdir/aseprite/build/bin/modp_b64_gen
 rm -rf $workdir/aseprite/build/bin/gen
