@@ -23,17 +23,17 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Import GPG
-        uses: crazy-max/ghaction-import-gpg@v1.4.1
-        with:
+      uses: crazy-max/ghaction-import-gpg@v1.4.1
+      with:
           git_user_signingkey: true
           git_commit_gpgsign: true
           git_tag_gpgsign: true
           git_committer_name: Insouciant21
           git_committer_email: ${{ secrets.owner_email }}
-        env:
+      env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-      - name: Git commi
-        run: |
+    - name: Git commit
+      run: |
           mkdir release-versions
           curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.json
           rm -rf release-versions/version-check.json
