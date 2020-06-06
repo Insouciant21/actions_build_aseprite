@@ -24,7 +24,9 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: scripts/ubuntu.sh
+      run: |
+        cd scripts
+        ./ubuntu.sh
     - name: Upload linux artifact
       uses: actions/upload-artifact@v2
       with:
