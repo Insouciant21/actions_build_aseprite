@@ -2,7 +2,9 @@
 # Clean environment
 clear
 echo -e "\033[31mClean environment\033[0m"
-rm -rf aseprite/ skia/ skia.zip source.zip action/
+rm -rf ubuntu/
+mkdir ubuntu
+cd ubuntu
 # Install dependencies
 clear
 echo -e "\033[31mInstall dependencies\033[0m"
