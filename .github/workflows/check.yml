@@ -2,8 +2,7 @@ name: Check Versions
 on:
   schedule:
     - cron:  '0 */2 * * *'
-  watch:
-    type: [started]
+  push
 jobs:
   get-version:
     runs-on: ubuntu-latest
