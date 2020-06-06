@@ -1,4 +1,4 @@
-name: Update deb
+name: Update package version
 on:
   repository_dispatch:
      types: [new-release]
