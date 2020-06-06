@@ -13,7 +13,8 @@ jobs:
         version: 1.10.0
         dest: ninja_bin
         platform: win
-    - run: echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
+    - name: Get Download Link
+      run: echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
       id: ase
     - name: Clone aseprite source
       run: |
@@ -44,20 +45,21 @@ jobs:
         del modp_b64_gen.ilk
         del modp_b64_gen.exe
         del modp_b64_gen.pdb
-        7z -tzip a aseprite-win.zip * -mx0
+        7z -tzip a aseprite-win64.zip * -mx0
         cd ..\..\..
-        mv aseprite\build\bin\aseprite-win.zip .
+        mv aseprite\build\bin\aseprite-win64.zip .
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v2
       with:
-        path: aseprite-win.zip
+        path: aseprite-win64.zip
   build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: sudo apt install -y cmake ninja-build libxcursor-dev libxi-dev libgl1-mesa-dev
-      - run: echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
+      - name: Get Download Link
+        run: echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
         id: ase
       - name: Clone aseprite source
         run: |
@@ -80,11 +82,11 @@ jobs:
            rm -rf aseprite/build/bin/modp_b64_gen
            rm -rf aseprite/build/bin/gen
            cp -r aseprite/build/bin/* deb-frame/usr/share/aseprite/
-           dpkg -b deb-frame aseprite-linux.deb
+           dpkg -b deb-frame aseprite-linux64.deb
       - name: Upload linux artifact
         uses: actions/upload-artifact@v2
         with:
-          path: aseprite-linux.deb
+          path: aseprite-linux64.deb
   build-macos:
     runs-on: macos-latest
     steps:
@@ -109,13 +111,13 @@ jobs:
         cd aseprite/build/bin
         rm -rf modp_b64_gen
         rm -rf gen
-        7z -tzip a aseprite-macos.zip * -mx0
+        7z -tzip a aseprite-macos64.zip * -mx0
         cd ../../..
         mv aseprite/build/bin/aseprite-macos.zip .
     - name: Upload macos artifact
       uses: actions/upload-artifact@v2
       with:
-          path: aseprite-macos.zip
+          path: aseprite-macos64.zip
   Upload:
     needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
@@ -127,7 +129,8 @@ jobs:
       id: current-time
       with:
         format: YYYY/MM/DD
-    - run: echo "::set-output name=tag_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep tag_name | grep v | cut -d '"' -f 4)"
+    - name: Get tag
+      run: echo "::set-output name=tag_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep tag_name | grep v | cut -d '"' -f 4)"
       id: tags
     - name: Weekly releases
       id: create_release
@@ -148,8 +151,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite-win.zip
-          asset_name: aseprite-win.zip
+          asset_path: artifact/aseprite-win64.zip
+          asset_name: aseprite-win64.zip
           asset_content_type: application/zip
     - name: Upload linux package to release
       uses: actions/upload-release-asset@v1
@@ -157,8 +160,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite-linux.deb
-          asset_name: aseprite-linux.deb
+          asset_path: artifact/aseprite-linux64.deb
+          asset_name: aseprite-linux64.deb
           asset_content_type: application/zip
     - name: Upload macos package to release
       uses: actions/upload-release-asset@v1
@@ -166,6 +169,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/aseprite-macos.zip
-          asset_name: aseprite-macos.zip
+          asset_path: artifact/aseprite-macos64.zip
+          asset_name: aseprite-macos64.zip
           asset_content_type: application/zip
