@@ -1,7 +1,7 @@
 name: Build aseprite
 on:
   repository_dispatch:
-    types: [Build_aseprite]
+    types: [build]
 jobs:
   build-win:
     runs-on: windows-latest
