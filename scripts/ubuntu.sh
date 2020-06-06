@@ -36,10 +36,12 @@ mkdir ../../deb-frame/usr/share/aseprite
 #rm -rf $workdir/aseprite/build/bin/gen
 cp -r $workdir/aseprite/build/bin/* ../../deb-frame/usr/share/aseprite/
 dpkg -b ../../deb-frame aseprite-linux64.deb
+where=$(readlink -f $workdir/aseprite-linux64.deb)
 if [ -e $workdir/aseprite-linux64.deb ]
 then
- echo -e "\033[32Successful\033[0m"
- echo "Install by using" + $(readlink -f $workdir/aseprite-linux64.deb)
+ echo -e "\033[32mSuccessful\033[0m"
+ echo "Install by using" 
+ echo "sudo dpkg install" $where
 else
  echo -e "\033[31mFailed\033[0m"
 fi
