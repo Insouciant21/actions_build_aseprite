@@ -9,11 +9,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Fetch release version
         run: |
-          curl -sL https://api.github.com/repos/Insouciant21/action_aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
-          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version-check.txt
+          curl -sL https://api.github.com/repos/Insouciant21/action_aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.json
+          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version-check.json
       - name: Check for new version
         id: git-check
-        run: echo ::set-output name=modified::$(if diff release-versions/version.txt release-versions/version-check.txt -q; then echo "false"; fi)
+        run: echo ::set-output name=modified::$(if diff release-versions/version.json release-versions/version-check.json -q; then echo "false"; fi)
       - name: Import GPG
         if: steps.git-check.outputs.modified != 'false'
         uses: crazy-max/ghaction-import-gpg@v1.4.1
@@ -28,8 +28,8 @@ jobs:
       - name: Git commit
         if: steps.git-check.outputs.modified != 'false'
         run: |
-          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.txt
-          rm -rf release-versions/version-check.txt
+          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.json
+          rm -rf release-versions/version-check.json
           git config --global commit.gpgsign true
           git config --global user.email ${{ secrets.owner_email }}
           git config --global user.name "Insouciant21"
