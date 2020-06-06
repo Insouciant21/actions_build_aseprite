@@ -31,15 +31,15 @@ ninja aseprite
 clear
 echo -e "\033[31mPackage\033[0m"
 cd $workdir
-pwd
 mkdir ../../deb-frame/usr/share/aseprite
-rm -rf $workdir/aseprite/build/bin/modp_b64_gen
-rm -rf $workdir/aseprite/build/bin/gen
+#rm -rf $workdir/aseprite/build/bin/modp_b64_gen
+#rm -rf $workdir/aseprite/build/bin/gen
 cp -r $workdir/aseprite/build/bin/* ../../deb-frame/usr/share/aseprite/
 dpkg -b ../../deb-frame aseprite-linux64.deb
 if [ -e $workdir/aseprite-linux64.deb ]
 then
- echo "Successful"
+ echo -e "\033[32Successful\033[0m"
+ echo "Install by using" + $(readlink -f $workdir/aseprite-linux64.deb)
 else
- echo "Failed"
+ echo -e "\033[31mFailed\033[0m"
 fi
