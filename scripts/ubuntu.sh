@@ -27,7 +27,8 @@ mkdir build
 cd build
 export cc=/usr/bin/clang
 export cxx=/usr/bin/clang++
-cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
+cp ../../linux.toolchain.cmake .
+cmake DCMAKE_TOOLCHAIN_FILE=./linux.toolchain.cmake-DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
 ninja aseprite
 # Package
 clear
