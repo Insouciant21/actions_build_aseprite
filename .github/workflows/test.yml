@@ -24,4 +24,4 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: curl -s https://api.github.com/repos/aseprite/skia/releases/latest | grep browser | grep Linux | grep 64
+      run: curl -s https://api.github.com/repos/aseprite/skia/releases/latest | grep -E Linux | grep -E 64
