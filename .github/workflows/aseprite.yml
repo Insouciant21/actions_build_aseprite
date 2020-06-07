@@ -27,6 +27,9 @@ jobs:
       run: |
         iwr -outf skia.zip ${{ steps.links.outputs.action_skia }}
         7z x skia.zip -y -oskia
+    - name: Find path
+      id: path
+      run: echo "::set-output name=working_path::$(pwd | findstr \)"
     - name: Enable Developer Command Prompt
       uses: ilammy/msvc-dev-cmd@v1.2.0
       with:
@@ -37,7 +40,7 @@ jobs:
         cd aseprite
         mkdir build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=D:\a\action_aseprite\action_aseprite\skia -DSKIA_LIBRARY_DIR=D:\a\action_aseprite\action_aseprite\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
+        cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}\skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
     - name: Archive bin
       run: |
@@ -69,12 +72,15 @@ jobs:
         run: |
           wget ${{ steps.links.outputs.action_skia }} -O skia.zip
           7z x skia.zip -y -oskia
+      - name: Find path
+        id: path
+        run: echo "::set-output name=working_path::$(pwd)"
       - name: Compiling aseprite for linux
         run: |
            cd aseprite
            mkdir build
            cd build
-           cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=/home/runner/work/action_aseprite/action_aseprite/skia -DSKIA_LIBRARY_DIR=/home/runner/work/action_aseprite/action_aseprite/skia/out/Release-x64 -G Ninja ..
+           cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}/skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}/skia/out/Release-x64 -G Ninja ..
            ninja aseprite
       - name: Package deb
         run: |
