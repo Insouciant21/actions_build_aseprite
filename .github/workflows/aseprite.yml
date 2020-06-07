@@ -1,4 +1,4 @@
-name: Build aseprite
+name: ninja aseprite
 on:
   repository_dispatch:
     types: [build]
@@ -127,15 +127,10 @@ jobs:
     steps:
     - name: Download artifacts
       uses: actions/download-artifact@v2
-    - name: Get current time
-      uses: srfrnk/current-time@master
-      id: current-time
-      with:
-        format: YYYY/MM/DD
     - name: Get tag
       run: echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep tag_name | grep v | cut -d '"' -f 4)"
       id: links
-    - name: Weekly releases
+    - name: Create new release
       id: create_release
       uses: actions/create-release@latest
       env:
