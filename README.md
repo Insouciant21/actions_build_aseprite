@@ -1,3 +1,4 @@
 # action_aseprite
-Only for personal use. Please buy from https://aseprite.org/#buy
+This repository is only for personal use.
+For other purposes, please purchase from the [official site](https://aseprite.org/#buy)
 
