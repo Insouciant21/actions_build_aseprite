@@ -14,18 +14,18 @@ clear
 echo -e "\033[31mGet Source\033[0m"
 source=$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')
 skia=$(curl -sL https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[].browser_download_url' | grep Linux | grep 64)
-wget -q -O source.zip $source
-wget -q -O skia.zip $skia
-7z x source.zip -oaseprite
-7z x skia.zip -oskia
+wget -nv -O source.zip $source
+wget -nv -O skia.zip $skia
+7z x source.zip -oaseprite | grep ing
+7z x skia.zip -oskia | grep ing
 # Start Building
 clear
 echo -e "\033[31mStart Building\033[0m"
-workdir=$(pwd) # pwd = action/scripts/ubuntu/tmp
+workdir=$(pwd)
 cd aseprite
 mkdir build
 cd build
-cmake  -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
 ninja aseprite
 # Package
 clear
@@ -38,7 +38,7 @@ where=$(readlink -f $workdir/../aseprite-linux64.deb)
 if [ -e $workdir/../aseprite-linux64.deb ]
 then
  echo -e "\033[32mSuccessful\033[0m"
- echo "Install by using" 
+ echo "Install by using"
  echo "sudo dpkg -i" $where
  rm -rf $workdir
 else
