@@ -39,7 +39,7 @@ jobs:
         if: steps.check.outputs.diff != 'false'
         run: |
           git add deb-frame/
-          git commit -S -m "Update version"
+          git commit -S -m "new version released"
           git push
       - name: Repository Dispatch
         if: steps.check.outputs.diff != 'false'

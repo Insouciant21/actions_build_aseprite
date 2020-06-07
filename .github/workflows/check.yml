@@ -34,7 +34,7 @@ jobs:
           git config --global user.email ${{ secrets.owner_email }}
           git config --global user.name "Insouciant21"
           git add .
-          git commit -S -m "New version Released"
+          git commit -S -m "new version released"
           git push
       - name: Repository Dispatch
         if: steps.git-check.outputs.modified != 'false'
