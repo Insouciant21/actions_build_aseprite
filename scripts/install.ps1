@@ -5,10 +5,10 @@ choco install cmake visualstudio2019community ninja windows-sdk-10.1 git jq grep
 # Get source code
 mkdir Windows
 cd Windows
-$source=$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')
-$skia=$(curl -sL https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[].browser_download_url' | grep Windows | grep 64)
-wget -nv -O source.zip $source
-wget -nv -O skia.zip $skia
+$source=$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url')
+$skia=$(curl https://api.github.com/repos/aseprite/skia/releases/latest | Select -ExpandProperty Content| jq -r '.assets[].browser_download_url' | grep Windows | grep 64)
+iwr -outf source.zip $source
+iwr -outf skia.zip $skia
 7z x source.zip -oaseprite | grep ing 
 7z x skia.zip -oskia | grep ing 
 cd aseprite
