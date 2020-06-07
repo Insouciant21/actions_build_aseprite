@@ -40,6 +40,8 @@ then
  echo -e "\033[32mSuccessful\033[0m"
  echo "Install by using" 
  echo "sudo dpkg -i" $where
+ rm -rf $workdir
 else
  echo -e "\033[31mFailed\033[0m"
+ rm -rf $workdir
 fi
