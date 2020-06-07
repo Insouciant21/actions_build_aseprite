@@ -27,6 +27,10 @@ jobs:
         whereis g++
         whereis gcc-9
         whereis g++-9
+        gcc -v
+        g++ -v
+        gcc-9 -v
+        g++-9 -v
     # Runs a single command using the runners shell
     - name: Run a one-line script
       run: |
