@@ -8,6 +8,8 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2.2.0
       - name: one-line script
         shell: cmd
         run: |
