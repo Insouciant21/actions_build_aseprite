@@ -26,7 +26,7 @@ cd aseprite
 mkdir build
 cd build
 cp ../../../../linux.toolchain.cmake .
-cmake  -DCMAKE_IGNORE_PATH="/usr/bin/cc,/usr/bin/c++" -DCMAKE_TOOLCHAIN_FILE=./linux.toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
+cmake  -DCMAKE_IGNORE_PATH="/usr/bin/cc,/usr/bin/c++" -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
 #"/home/runner/work/action_aseprite/action_aseprite/scripts/ubuntu/aseprite/build/CMakeFiles/CMakeError.log"
 ninja aseprite
 # Package
