@@ -18,10 +18,6 @@ wget -q -O source.zip $source
 wget -q -O skia.zip $skia
 7z x source.zip -oaseprite
 7z x skia.zip -oskia
-whereis clang
-whereis clang++
-whereis clang-9
-whereis clang++-9
 # Start Building
 clear
 echo -e "\033[31mStart Building\033[0m"
@@ -29,8 +25,6 @@ workdir=$(pwd)
 cd aseprite
 mkdir build
 cd build
-export cc=/usr/bin/clang
-export cxx=/usr/bin/clang++
 cp ../../../../linux.toolchain.cmake .
 cmake  -DCMAKE_IGNORE_PATH="/usr/bin/cc,/usr/bin/c++" -DCMAKE_TOOLCHAIN_FILE=./linux.toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
 #"/home/runner/work/action_aseprite/action_aseprite/scripts/ubuntu/aseprite/build/CMakeFiles/CMakeError.log"
