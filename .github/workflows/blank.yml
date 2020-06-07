@@ -21,7 +21,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
+    - name: Where
+      run: |
+        whereis gcc
+        whereis g++
+        whereis gcc-9
+        whereis g++-9
     # Runs a single command using the runners shell
     - name: Run a one-line script
       run: |
