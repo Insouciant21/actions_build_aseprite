@@ -18,6 +18,10 @@ wget -q -O source.zip $source
 wget -q -O skia.zip $skia
 7z x source.zip -oaseprite
 7z x skia.zip -oskia
+whereis clang
+whereis clang++
+whereis clang-9
+whereis clang++-9
 # Start Building
 clear
 echo -e "\033[31mStart Building\033[0m"
