@@ -2,9 +2,9 @@
 # Clean environment
 clear
 echo -e "\033[31mClean environment\033[0m"
-rm -rf ubuntu/
-mkdir ubuntu
-cd ubuntu
+rm -rf tmp/
+mkdir tmp
+cd tmp
 # Install dependencies
 clear
 echo -e "\033[31mInstall dependencies\033[0m"
@@ -21,29 +21,25 @@ wget -q -O skia.zip $skia
 # Start Building
 clear
 echo -e "\033[31mStart Building\033[0m"
-workdir=$(pwd)
+workdir=$(pwd) # pwd = action/scripts/ubuntu/tmp
 cd aseprite
 mkdir build
 cd build
-cp ../../../../linux.toolchain.cmake .
-cmake -DCMAKE_C_COMPILER="/usr/bin/gcc-9" -DCMAKE_CXX_COMPILER="/usr/bin/g++-9" -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
-#"/home/runner/work/action_aseprite/action_aseprite/scripts/ubuntu/aseprite/build/CMakeFiles/CMakeError.log"
+cmake  -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
 ninja aseprite
 # Package
 clear
 echo -e "\033[31mPackage\033[0m"
-cd $workdir
+cd $workdir/..
 mkdir ../../deb-frame/usr/share/aseprite
-#rm -rf $workdir/aseprite/build/bin/modp_b64_gen
-#rm -rf $workdir/aseprite/build/bin/gen
 cp -r $workdir/aseprite/build/bin/* ../../deb-frame/usr/share/aseprite/
 dpkg -b ../../deb-frame aseprite-linux64.deb
-where=$(readlink -f $workdir/aseprite-linux64.deb)
-if [ -e $workdir/aseprite-linux64.deb ]
+where=$(readlink -f $workdir/../aseprite-linux64.deb)
+if [ -e $workdir/../aseprite-linux64.deb ]
 then
  echo -e "\033[32mSuccessful\033[0m"
  echo "Install by using" 
- echo "sudo dpkg install" $where
+ echo "sudo dpkg -i" $where
 else
  echo -e "\033[31mFailed\033[0m"
 fi

@@ -3,8 +3,8 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 # Install dependencies
 choco install cmake visualstudio2019community ninja windows-sdk-10.1 git jq grep curl wget 7zip -y
 # Get source code
-mkdir Windows
-cd Windows
+mkdir tmp
+cd tmp
 $source=$(curl https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url')
 $skia=$(curl https://api.github.com/repos/aseprite/skia/releases/latest | Select -ExpandProperty Content| jq -r '.assets[].browser_download_url' | findstr Windows | findstr 64)
 iwr -outf source.zip $source
