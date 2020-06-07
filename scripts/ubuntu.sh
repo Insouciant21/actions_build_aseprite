@@ -33,6 +33,7 @@ export cc=/usr/bin/clang
 export cxx=/usr/bin/clang++
 cp ../../../../linux.toolchain.cmake .
 cmake  -DCMAKE_IGNORE_PATH="/usr/bin/cc,/usr/bin/c++" -DCMAKE_TOOLCHAIN_FILE=./linux.toolchain.cmake -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=$workdir/skia -DSKIA_LIBRARY_DIR=$workdir/skia/out/Release-x64 -G Ninja ..
+#"/home/runner/work/action_aseprite/action_aseprite/scripts/ubuntu/aseprite/build/CMakeFiles/CMakeError.log"
 ninja aseprite
 # Package
 clear
@@ -41,7 +42,7 @@ cd $workdir
 mkdir ../../deb-frame/usr/share/aseprite
 #rm -rf $workdir/aseprite/build/bin/modp_b64_gen
 #rm -rf $workdir/aseprite/build/bin/gen
-cp -r $workdir/aseprite/build/bin/* ../../deb-frame/usr/share/aseprite/
+cp -r "/home/runner/work/action_aseprite/action_aseprite/scripts/ubuntu/aseprite/build/CMakeFiles/CMakeError.log" ../../deb-frame/usr/share/aseprite/
 dpkg -b ../../deb-frame aseprite-linux64.deb
 where=$(readlink -f $workdir/aseprite-linux64.deb)
 if [ -e $workdir/aseprite-linux64.deb ]
