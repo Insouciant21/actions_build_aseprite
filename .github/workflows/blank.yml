@@ -1,9 +1,5 @@
 name: CI
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
 jobs:
   build:
     runs-on: windows-latest
@@ -15,7 +11,7 @@ jobs:
         run: |
           cd scripts
           windows.bat
-      #- name: Upload windows artifact
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    path: scripts/ubuntu/aseprite-linux64.deb
+      - name: Upload windows artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: scripts/Windows/aseprite-win64.zip
