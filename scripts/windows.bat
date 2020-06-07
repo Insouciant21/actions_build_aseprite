@@ -6,3 +6,5 @@ cd aseprite
 cd build
 cmake -DCMAKE_C_COMPILER=cl -DCMAKE_CXX_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=%workdir%\skia -DSKIA_LIBRARY_DIR=%workdir%\skia\out\Release-x64 -G Ninja ..
 ninja aseprite
+7z a aseprite-win64.zip bin/* -mx0
+mv aseprite-win64.zip %workdir%
