@@ -1,7 +1,7 @@
 # Install Chocolatey
-# Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 # Install dependencies
-# choco install cmake visualstudio2019community ninja windows-sdk-10.1 git jq grep curl wget 7zip -y
+choco install cmake visualstudio2019community ninja windows-sdk-10.1 git jq grep curl wget 7zip -y
 # Get source code
 mkdir Windows
 cd Windows
