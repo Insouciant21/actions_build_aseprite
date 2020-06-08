@@ -13,7 +13,7 @@ jobs:
           curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version-check.json
       - name: Check for new version
         id: git-check
-        run: echo ::set-output name=modified::$(if diff release-versions/version.json release-versions/version-check.json -q; then echo "false"; fi)
+        run: echo "::set-output name=modified::$(if diff release-versions/version.json release-versions/version-check.json -q; then echo "false"; fi)"
       - name: Import GPG
         if: steps.git-check.outputs.modified != 'false'
         uses: crazy-max/ghaction-import-gpg@v1.4.1
