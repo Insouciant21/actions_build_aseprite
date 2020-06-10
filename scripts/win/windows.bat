@@ -1,3 +1,4 @@
+@echo off
 :: Using powershell to prepare dependencies
 powershell.exe ./dependencies.ps1
 :: Call Developer Command Prompt
