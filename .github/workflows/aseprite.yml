@@ -102,7 +102,7 @@ jobs:
         brew install ninja
         echo "::set-output name=action_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep "browser_download_url" | cut -d ":" -f 2,3 | tr -d \")"
         echo "::set-output name=action_skia::$(curl -s https://api.github.com/repos/aseprite/skia/releases/latest | grep "browser_download_url" | cut -d ":" -f 2,3 | tr -d \" | grep macOS)"
-        echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep -oP '" tag_name": "\K(.*)(?=")')"
+        echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep '" tag_name": "\K(.*)(?=")')"
       id: links
     - name: Clone aseprite source
       run: |
