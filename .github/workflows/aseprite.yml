@@ -2,8 +2,6 @@ name: ninja aseprite
 on:
   repository_dispatch:
     types: [build]
-  watch:
-    types: [started]
 jobs:
   build-win:
     runs-on: windows-latest
@@ -174,6 +172,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: artifact/Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip
-          asset_name: Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip
+          asset_path: artifact/Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip
+          asset_name: Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip
           asset_content_type: application/zip
