@@ -68,11 +68,11 @@ jobs:
         id: links
       - name: Clone aseprite source
         run: |
-          wget -O source.zip ${{ steps.links.outputs.action_ase }}
+          wget -nv -O source.zip ${{ steps.links.outputs.action_ase }}
           7z x source.zip -y -oaseprite | grep ing
       - name: Download compiled skia
         run: |
-          wget ${{ steps.links.outputs.action_skia }} -O skia.zip
+          wget -nv -O skia.zip ${{ steps.links.outputs.action_skia }} 
           7z x skia.zip -y -oskia | grep ing 
       - name: Find path
         id: path
@@ -103,16 +103,15 @@ jobs:
         pip install lastversion
         export GITHUB_API_TOKEN=${{ secrets.WORK1 }}
         echo "::set-output name=action_ase::$(lastversion --format assets aseprite/aseprite)"
-        echo "::set-output name=action_skia::$(curl -ksL "https://api.github.com/repos/aseprite/skia/releases/latest" | jq -r ".assets[0].browser_download_url" | grep macOS)"
         echo "::set-output name=action_tag::$(lastversion aseprite/aseprite)"
       id: links
     - name: Clone aseprite source
       run: |
-        wget -O source.zip ${{ steps.links.outputs.action_ase }}
+        wget -nv -O source.zip ${{ steps.links.outputs.action_ase }}
         7z x source.zip -oaseprite | grep ing
     - name: Download compiled skia
       run: |
-        wget -O skia.zip ${{ steps.links.outputs.action_skia }}
+        wget -nv -O skia.zip https://github.com/aseprite/skia/releases/download/latest/Skia-macOS-Release-x64.zip
         7z x skia.zip -y -oskia | grep ing
     - name: Compiling aseprite for macOS
       run: |
