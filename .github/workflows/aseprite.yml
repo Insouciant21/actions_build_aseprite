@@ -12,8 +12,6 @@ jobs:
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@v1
       with:
-        version: 1.10.0
-        dest: ninja_bin
         platform: win
     - name: Get Download Links
       run: |
@@ -68,11 +66,11 @@ jobs:
         id: links
       - name: Clone aseprite source
         run: |
-          wget -nv -O source.zip ${{ steps.links.outputs.action_ase }}
+          wget -q -O source.zip ${{ steps.links.outputs.action_ase }}
           7z x source.zip -y -oaseprite | grep ing
       - name: Download compiled skia
         run: |
-          wget -nv -O skia.zip ${{ steps.links.outputs.action_skia }} 
+          wget -q -O skia.zip ${{ steps.links.outputs.action_skia }} 
           7z x skia.zip -y -oskia | grep ing 
       - name: Find path
         id: path
@@ -107,11 +105,11 @@ jobs:
       id: links
     - name: Clone aseprite source
       run: |
-        wget -nv -O source.zip ${{ steps.links.outputs.action_ase }}
+        wget -q -O source.zip ${{ steps.links.outputs.action_ase }}
         7z x source.zip -oaseprite | grep ing
     - name: Download compiled skia
       run: |
-        wget -nv -O skia.zip https://github.com/aseprite/skia/releases/latest/download/Skia-macOS-Release-x64.zip
+        wget -q -O skia.zip https://github.com/aseprite/skia/releases/latest/download/Skia-macOS-Release-x64.zip
         7z x skia.zip -y -oskia | grep ing
     - name: Compiling aseprite for macOS
       run: |
