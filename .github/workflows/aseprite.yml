@@ -22,11 +22,11 @@ jobs:
     - name: Clone aseprite source
       run: |
         iwr -outf source.zip ${{ steps.links.outputs.action_ase }}
-        7z x source.zip -y -oaseprite
+        7z x source.zip -y -oaseprite | findstr ing
     - name: Download compiled skia
       run: |
         iwr -outf skia.zip ${{ steps.links.outputs.action_skia }}
-        7z x skia.zip -y -oskia
+        7z x skia.zip -y -oskia | findstr ing
     - name: Find path
       id: path
       run: echo "::set-output name=working_path::$(pwd | findstr \)"
@@ -45,7 +45,7 @@ jobs:
     - name: Archive bin
       run: |
         cd aseprite\build\bin
-        7z -tzip a Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip * -mx0
+        7z -tzip a Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip * -mx0 | findstr ing
         cd ..\..\..
         mv aseprite\build\bin\Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip .
     - name: Upload Windows artifact
@@ -62,16 +62,16 @@ jobs:
         run: |
           echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
           echo "::set-output name=action_skia::$(curl -sL https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[].browser_download_url' | grep Linux | grep 64)"
-          echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r'.tag_name')"
+          echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')"
         id: links
       - name: Clone aseprite source
         run: |
           wget -O source.zip ${{ steps.links.outputs.action_ase }}
-          7z x source.zip -y -oaseprite
+          7z x source.zip -y -oaseprite | grep ing
       - name: Download compiled skia
         run: |
           wget ${{ steps.links.outputs.action_skia }} -O skia.zip
-          7z x skia.zip -y -oskia
+          7z x skia.zip -y -oskia | grep ing 
       - name: Find path
         id: path
         run: echo "::set-output name=working_path::$(pwd)"
@@ -97,7 +97,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Get Download Links
       run: |
-        brew install p7zip ninja grep
+        brew install ninja grep
         echo "::set-output name=action_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[]?.browser_download_url')"
         echo "::set-output name=action_skia::$(curl -s https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[]?.browser_download_url' | grep mac)"
         echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')"
@@ -105,11 +105,11 @@ jobs:
     - name: Clone aseprite source
       run: |
         wget -O source.zip ${{ steps.links.outputs.action_ase }}
-        7z x source.zip -oaseprite
+        7z x source.zip -oaseprite | grep ing
     - name: Download compiled skia
       run: |
         wget -O skia.zip ${{ steps.links.outputs.action_skia }}
-        7z x skia.zip -y -oskia
+        7z x skia.zip -y -oskia | grep ing
     - name: Compiling aseprite for macOS
       run: |
         cd aseprite
@@ -120,7 +120,7 @@ jobs:
     - name: Archive bin
       run: |
         cd aseprite/build/bin
-        7z -tzip a Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip * -mx0
+        7z -tzip a Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip * -mx0 | grep ing 
         cd ../../..
         mv aseprite/build/bin/Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip .
     - name: Upload macos artifact
@@ -134,7 +134,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v2
     - name: Get tag
-      run: echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep tag_name | grep v | cut -d '"' -f 4)"
+      run: echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')"
       id: links
     - name: Create new release
       id: create_release
