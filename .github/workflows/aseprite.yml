@@ -111,7 +111,7 @@ jobs:
         7z x source.zip -oaseprite | grep ing
     - name: Download compiled skia
       run: |
-        wget -nv -O skia.zip https://github.com/aseprite/skia/releases/download/latest/Skia-macOS-Release-x64.zip
+        wget -nv -O skia.zip https://github.com/aseprite/skia/releases/latest/download/Skia-macOS-Release-x64.zip
         7z x skia.zip -y -oskia | grep ing
     - name: Compiling aseprite for macOS
       run: |
