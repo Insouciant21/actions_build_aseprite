@@ -101,6 +101,7 @@ jobs:
       run: |
         brew install ninja
         pip install lastversion
+        export GITHUB_API_TOKEN=${{ secrets.WORK1 }}
         echo "::set-output name=action_ase::$(lastversion --format assets aseprite/aseprite)"
         echo "::set-output name=action_skia::$(curl -ksL "https://api.github.com/repos/aseprite/skia/releases/latest" | jq -r ".assets[0].browser_download_url" | grep macOS)"
         echo "::set-output name=action_tag::$(lastversion aseprite/aseprite)"
