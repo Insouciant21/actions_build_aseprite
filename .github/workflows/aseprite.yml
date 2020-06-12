@@ -100,9 +100,10 @@ jobs:
     - name: Get Download Links
       run: |
         brew install ninja
-        echo "::set-output name=action_ase::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep "browser_download_url" | cut -d ":" -f 2,3 | tr -d \")"
-        echo "::set-output name=action_skia::$(curl -s https://api.github.com/repos/aseprite/skia/releases/latest | grep "browser_download_url" | cut -d ":" -f 2,3 | tr -d \" | grep macOS)"
-        echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | grep '" tag_name": "\K(.*)(?=")')"
+        pip install lastversion
+        echo "::set-output name=action_ase::$(lastversion --format assests aseprite/aseprite)"
+        echo "::set-output name=action_skia::$(curl -ksL "https://api.github.com/repos/aseprite/skia/releases/latest" | jq -r ".assets[0].browser_download_url" | grep macOS)"
+        echo "::set-output name=action_tag::$(lastversion aseprite/aseprite)"
       id: links
     - name: Clone aseprite source
       run: |
