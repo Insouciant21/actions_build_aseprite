@@ -123,11 +123,11 @@ jobs:
         cd aseprite/build/bin
         7z -tzip a Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip * -mx0 | grep ing 
         cd ../../..
-        mv aseprite/build/bin/Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip .
+        mv aseprite/build/bin/Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip .
     - name: Upload macos artifact
       uses: actions/upload-artifact@v2
       with:
-          path: Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip
+          path: Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip
   Upload:
     needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
