@@ -6,7 +6,4 @@ Architecture: amd64
 Maintainer: David & Gaspar Capello -- Igara Studio
 Homepage: https://aseprite.org
 Installed-size: 204400
-Provides: aseprite
-Conflicts: aseprite
-Replaces: aseprite
 Description: Animated sprite editor & pixel art tool (Windows, macOS, Linux) 
