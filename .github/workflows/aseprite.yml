@@ -138,7 +138,7 @@ jobs:
       run: echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')"
       id: links
     - name: Update release
-      uses: johnwbyrd/update-release@v1
+      uses: johnwbyrd/update-release@v1.0.0
       with:
         token: ${{ secrets.WORK1 }}
         files: artifact/Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip artifact/Aseprite-${{ steps.links.outputs.action_tag }}-ubuntu_amd64.deb artifact/Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip
