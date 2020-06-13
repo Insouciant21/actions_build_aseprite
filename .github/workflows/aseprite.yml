@@ -132,6 +132,7 @@ jobs:
     needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Download artifacts
       uses: actions/download-artifact@v2
     - name: Get tag
