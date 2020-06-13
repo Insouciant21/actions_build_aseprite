@@ -146,4 +146,5 @@ jobs:
         tag: ${{ steps.links.outputs.action_tag }}
         body: | 
           Unofficial dev release.
-          Support official version at https://www.aseprite.org/download
+          Support official version https://www.aseprite.org/download
+        prerelease: false
