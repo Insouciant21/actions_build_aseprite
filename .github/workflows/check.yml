@@ -22,7 +22,7 @@ jobs:
           git_commit_gpgsign: true
           git_tag_gpgsign: true
           git_committer_name: Insouciant21
-          git_committer_email: ${{ secrets.owner_email }}
+          git_committer_email: 48847364+Insouciant21@users.noreply.github.com
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       - name: Git commit
@@ -31,7 +31,7 @@ jobs:
           curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" > release-versions/version.json
           rm -rf release-versions/version-check.json
           git config --global commit.gpgsign true
-          git config --global user.email ${{ secrets.owner_email }}
+          git config --global user.email "48847364+Insouciant21@users.noreply.github.com"
           git config --global user.name "Insouciant21"
           git add .
           git commit -S -m "new version released"
