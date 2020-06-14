@@ -138,17 +138,6 @@ jobs:
     - name: Get tag
       run: echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')"
       id: links
-    - name: Import GPG
-      if: steps.git-check.outputs.modified != 'false'
-      uses: crazy-max/ghaction-import-gpg@v1.4.1
-      with:
-        git_user_signingkey: true
-        git_commit_gpgsign: true
-        git_tag_gpgsign: true
-        git_committer_name: Insouciant21
-        git_committer_email: 48847364+Insouciant21@users.noreply.github.com
-      env:
-        GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
     - name: Update release
       uses: johnwbyrd/update-release@v1.0.0
       with:
