@@ -1,6 +1,6 @@
-@echo off
 :: Using powershell to prepare dependencies
 powershell.exe ./dependencies.ps1
+cls
 :: Call Developer Command Prompt
 call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat" -arch=x64
 :: Build
