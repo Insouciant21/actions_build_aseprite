@@ -99,8 +99,6 @@ jobs:
     - name: Get Download Links
       run: |
         brew install ninja
-        brew install lz4 && brew link lz4
-        brew instal zstd && brew link zstd
         pip install lastversion
         export GITHUB_API_TOKEN=${{ secrets.WORK1 }}
         echo "::set-output name=action_ase::$(lastversion --format assets aseprite/aseprite)"
