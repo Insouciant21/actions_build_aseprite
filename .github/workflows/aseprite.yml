@@ -26,7 +26,7 @@ jobs:
       id: path
       run: echo "::set-output name=working_path::$(pwd | findstr \)"
     - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@v1.2.0
+      uses: ilammy/msvc-dev-cmd@master
       with:
         arch: x64
         sdk: 10.0.18362.0
