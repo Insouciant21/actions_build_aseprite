@@ -1,7 +1,7 @@
 name: Check Versions
 on:
   schedule:
-    - cron:  '0 */24 * * *'
+    - cron:  '0 0 * * 1'
 jobs:
   get-version:
     runs-on: ubuntu-latest
