@@ -2,6 +2,12 @@ name: ninja aseprite
 on:
   repository_dispatch:
     types: [build]
+  workflow_dispatch:
+      inputs:
+        name:
+          description: 'Run?'
+          required: true
+          default: 'YES!'
 jobs:
   build-win:
     runs-on: windows-latest
