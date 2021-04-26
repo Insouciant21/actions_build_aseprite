@@ -87,45 +87,45 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: Aseprite-${{ steps.links.outputs.action_tag }}-ubuntu_amd64.deb
-  build-macos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Get Download Links
-      run: |
-        brew install ninja
-        pip install lastversion
-        export GITHUB_API_TOKEN=${{ secrets.WORK1 }}
-        echo "::set-output name=action_ase::$(lastversion --format assets aseprite/aseprite)"
-        echo "::set-output name=action_tag::$(lastversion aseprite/aseprite)"
-      id: links
-    - name: Clone aseprite source
-      run: |
-        wget -q -O source.zip ${{ steps.links.outputs.action_ase }}
-        7z x source.zip -oaseprite | grep ing
-    - name: Download compiled skia
-      run: |
-        wget -q -O skia.zip https://github.com/aseprite/skia/releases/latest/download/Skia-macOS-Release-x64.zip
-        7z x skia.zip -y -oskia | grep ing
-    - name: Compiling aseprite for macOS
-      run: |
-        cd aseprite
-        mkdir build
-        cd build
-        cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_SYSROOT=/Applications/Xcode_12.1.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -G Ninja ..
-        ninja aseprite
-    - name: Archive bin
-      run: |
-        cd aseprite/build/bin
-        7z -tzip a Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip * -mx0 | grep ing 
-        cd ../../..
-        mv aseprite/build/bin/Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip .
-    - name: Upload macos artifact
-      uses: actions/upload-artifact@v2
-      with:
-          path: Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip
+#  build-macos:
+#    runs-on: macos-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Get Download Links
+#      run: |
+#        brew install ninja
+#        pip install lastversion
+#        export GITHUB_API_TOKEN=${{ secrets.WORK1 }}
+#        echo "::set-output name=action_ase::$(lastversion --format assets aseprite/aseprite)"
+#        echo "::set-output name=action_tag::$(lastversion aseprite/aseprite)"
+#      id: links
+#    - name: Clone aseprite source
+#      run: |
+#        wget -q -O source.zip ${{ steps.links.outputs.action_ase }}
+#        7z x source.zip -oaseprite | grep ing
+#    - name: Download compiled skia
+#      run: |
+        #wget -q -O skia.zip https://github.com/aseprite/skia/releases/latest/download/Skia-macOS-Release-x64.zip
+#        7z x skia.zip -y -oskia | grep ing
+#    - name: Compiling aseprite for macOS
+#      run: |
+#        cd aseprite
+#        mkdir build
+#        cd build
+#        cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_SYSROOT=/Applications/Xcode_12.1.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -G Ninja ..
+#        ninja aseprite
+#    - name: Archive bin
+#      run: |
+#        cd aseprite/build/bin
+#        7z -tzip a Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip * -mx0 | grep ing 
+#        cd ../../..
+#        mv aseprite/build/bin/Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip .
+#    - name: Upload macos artifact
+#      uses: actions/upload-artifact@v2
+#      with:
+#          path: Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip
   Upload:
-    needs: [build-win, build-linux, build-macos]
+    needs: [build-win, build-linux] # , build-macos]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -142,7 +142,6 @@ jobs:
         files: |
           artifact/Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip
           artifact/Aseprite-${{ steps.links.outputs.action_tag }}-ubuntu_amd64.deb
-          artifact/Aseprite-${{ steps.links.outputs.action_tag }}-osx-x64.zip
         body: | 
           Unofficial dev release.
           Support [official version](https://www.aseprite.org/download)
