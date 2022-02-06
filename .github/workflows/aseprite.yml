@@ -22,7 +22,7 @@ jobs:
       id: links
     - name: Clone aseprite source
       run: |
-        git clone https://github.com/aseprite/aseprite.git aseprite
+        git clone --recursive https://github.com/aseprite/aseprite.git aseprite
     - name: Download compiled skia
       run: |
         iwr -outf skia.zip ${{ steps.links.outputs.action_skia }}
