@@ -92,7 +92,7 @@ jobs:
         with:
           path: Aseprite-ubuntu_amd64.deb
   build-macos:
-    runs-on: macos-latest
+    runs-on: macos-10.15
     steps:
     - uses: actions/checkout@v2
     - name: Get Download Links
