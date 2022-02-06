@@ -22,8 +22,7 @@ jobs:
       id: links
     - name: Clone aseprite source
       run: |
-        iwr -outf source.zip ${{ steps.links.outputs.action_ase }}
-        7z x source.zip -y -oaseprite | findstr ing
+        git clone https://github.com/aseprite/aseprite.git aseprite
     - name: Download compiled skia
       run: |
         iwr -outf skia.zip ${{ steps.links.outputs.action_skia }}
@@ -38,24 +37,21 @@ jobs:
         sdk: 10.0.18362.0
     - name: Compiling aseprite for Windows
       run: |
-        echo $(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')
-        echo "::set-output name=action_tag::$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')"
-        cd aseprite\Aseprite-${{steps.links.action_tg}}-Source
+        cd aseprite
         mkdir build
         cd build
         cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}\skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
-      id: f
     - name: Archive bin
       run: |
-        cd aseprite\Aseprite-${{steps.links.action_tag}}-Source\build\bin
-        7z -tzip a Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip * -mx0 | findstr ing
+        cd aseprite\build\bin
+        7z -tzip a Aseprite-win-x64.zip * -mx0 | findstr ing
         cd ..\..\..
-        mv aseprite\Aseprite-${{steps.links.action_tag}}-Source\build\bin\Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip .
+        mv aseprite\build\bin\Aseprite-win-x64.zip .
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v2
       with:
-        path: Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip
+        path: Aseprite-win-x64.zip
   build-linux:
     runs-on: 	ubuntu-18.04
     steps:
