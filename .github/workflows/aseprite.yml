@@ -67,8 +67,7 @@ jobs:
         id: links
       - name: Clone aseprite source
         run: |
-          wget -q -O source.zip ${{ steps.links.outputs.action_ase }}
-          7z x source.zip -y -oaseprite | grep ing
+          git clone --recursive https://github.com/aseprite/aseprite.git aseprite
       - name: Download compiled skia
         run: |
           wget -q -O skia.zip ${{ steps.links.outputs.action_skia }}
@@ -78,7 +77,7 @@ jobs:
         run: echo "::set-output name=working_path::$(pwd)"
       - name: Compiling aseprite for linux
         run: |
-           cd aseprite/Aseprite-${{steps.links.action_tag}}-Source
+           cd aseprite
            mkdir build
            cd build
            cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}/skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}/skia/out/Release-x64 -G Ninja ..
@@ -86,12 +85,12 @@ jobs:
       - name: Package deb
         run: |
            mkdir deb-frame/usr/share/aseprite
-           cp -r aseprite/Aseprite-${{steps.links.action_tag}}-Source/build/bin/* deb-frame/usr/share/aseprite/
-           dpkg -b deb-frame Aseprite-${{ steps.links.outputs.action_tag }}-ubuntu_amd64.deb
+           cp -r aseprite/build/bin/* deb-frame/usr/share/aseprite/
+           dpkg -b deb-frame Aseprite-ubuntu_amd64.deb
       - name: Upload linux artifact
         uses: actions/upload-artifact@v2
         with:
-          path: Aseprite-${{ steps.links.outputs.action_tag }}-ubuntu_amd64.deb
+          path: Aseprite-ubuntu_amd64.deb
   build-macos:
     runs-on: macos-latest
     steps:
@@ -106,29 +105,28 @@ jobs:
       id: links
     - name: Clone aseprite source
       run: |
-        wget -q -O source.zip ${{ steps.links.outputs.action_ase }}
-        7z x source.zip -oaseprite | grep ing
+        git clone --recursive https://github.com/aseprite/aseprite.git aseprite
     - name: Download compiled skia
       run: |
         wget -q -O skia.zip https://github.com/aseprite/skia/releases/latest/download/Skia-macOS-Release-x64.zip
         7z x skia.zip -y -oskia | grep ing
     - name: Compiling aseprite for macOS
       run: |
-        cd aseprite/__MACOSX/Aseprite-${{steps.links.action_tag}}-Source
+        cd aseprite/
         mkdir build
         cd build
         cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_SYSROOT=/Applications/Xcode_12.1.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -G Ninja ..
         ninja aseprite
     - name: Archive bin
       run: |
-        cd aseprite/__MACOSX/Aseprite-${{steps.links.action_tag}}-Source/build/bin
-        7z -tzip a Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip * -mx0 | grep ing
+        cd aseprite/build/bin
+        7z -tzip a Aseprite-mac-x64.zip * -mx0 | grep ing
         cd ../../..
-        mv aseprite/__MACOSX/Aseprite-${{steps.links.action_tag}}-Source/build/bin/Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip .
+        mv aseprite/build/bin/Aseprite-mac-x64.zip .
     - name: Upload macos artifact
       uses: actions/upload-artifact@v2
       with:
-          path: Aseprite-v${{ steps.links.outputs.action_tag }}-osx-x64.zip
+          path: Aseprite-mac-x64.zip
   Upload:
     needs: [build-win, build-linux, build-macos]
     runs-on: ubuntu-latest
@@ -137,7 +135,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v2
     - name: Get tag
-      run: echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')"
+      run: echo "::set-output name=atb::$(echo release-versions/version.json)"
       id: links
     - name: Release
       uses: softprops/action-gh-release@v1
