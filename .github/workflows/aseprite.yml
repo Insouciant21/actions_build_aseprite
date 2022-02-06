@@ -40,7 +40,6 @@ jobs:
       run: |
         echo $(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')
         echo "::set-output name=action_tag::$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')"
-        choco install openssl.light -y
         cd aseprite\Aseprite-${{steps.f.action_tag}}-Source
         mkdir build
         cd build
