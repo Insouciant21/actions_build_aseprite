@@ -85,6 +85,8 @@ jobs:
            cmake \
              -Wno-dev \
              -DCMAKE_BUILD_TYPE=Release \
+             -DCMAKE_C_COMPILE=$(which clang) \
+             -DCMAKE_CXX_COMPILER=$(which clang++) \
              -DLAF_BACKEND=skia \
              -DSKIA_DIR=${{ steps.path.outputs.working_path }}/skia \
              -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}/skia/out/Release-x64 \
