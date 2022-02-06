@@ -41,11 +41,12 @@ jobs:
         echo $(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')
         echo "::set-output name=action_tag::$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')"
         choco install openssl.light -y
-        cd aseprite\Aseprite-${{steps.links.action_tag}}-Source
+        cd aseprite\Aseprite-${{steps.f.action_tag}}-Source
         mkdir build
         cd build
         cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}\skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
         ninja aseprite
+      id: f
     - name: Archive bin
       run: |
         cd aseprite\Aseprite-${{steps.links.action_tag}}-Source\build\bin
