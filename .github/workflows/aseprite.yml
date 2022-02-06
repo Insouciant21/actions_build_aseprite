@@ -10,7 +10,7 @@ on:
           default: 'YES!'
 jobs:
   build-win:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
     - uses: actions/checkout@v2
     - uses: seanmiddleditch/gha-setup-ninja@master
@@ -40,11 +40,13 @@ jobs:
         cd aseprite
         mkdir build
         cd build
-        cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}\skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}\skia\out\Release-x64 -DCMAKE_IGNORE_PATH="C:/ProgramData/chocolatey/bin/;C:/Strawberry/c/bin/" -G Ninja ..
+        cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}\skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}\skia\out\Release-x64 -DSKIA_LIBRARY=${{ steps.path.outputs.working_path }}\skia\out\Release-x64\skia.lib -G Ninja ..
         ninja aseprite
     - name: Archive bin
       run: |
         cd aseprite\build\bin
+        rm gen*
+        rm mod*
         7z -tzip a Aseprite-win-x64.zip * -mx0 | findstr ing
         cd ..\..\..
         mv aseprite\build\bin\Aseprite-win-x64.zip .
@@ -58,7 +60,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-           sudo apt install -y g++ cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev cmake ninja-build libxcursor-dev libxi-dev libgl1-mesa-dev
+           sudo apt-get install -y g++ cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
       - name: Get Download Links
         run: |
           echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
@@ -80,7 +82,15 @@ jobs:
            cd aseprite
            mkdir build
            cd build
-           cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DLAF_BACKEND=skia -DSKIA_DIR=${{ steps.path.outputs.working_path }}/skia -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}/skia/out/Release-x64 -G Ninja ..
+           cmake \
+             -Wno-dev \
+             -DCMAKE_BUILD_TYPE=Release \
+             -DLAF_BACKEND=skia \
+             -DSKIA_DIR=${{ steps.path.outputs.working_path }}/skia \
+             -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}/skia/out/Release-x64 \
+             -DSKIA_LIBRARY=${{ steps.path.outputs.working_path }}/skia/out/Release-x64/libskia.a \
+             -G Ninja \
+             ..
            ninja aseprite
       - name: Package deb
         run: |
@@ -115,7 +125,18 @@ jobs:
         cd aseprite/
         mkdir build
         cd build
-        cmake -Wno-dev -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_SYSROOT=/Applications/Xcode_12.1.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -DLAF_BACKEND=skia -DSKIA_DIR=../../skia -DSKIA_LIBRARY_DIR=../../skia/out/Release-x64 -G Ninja ..
+        cmake \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+          -DCMAKE_OSX_ARCHITECTURES=x86_64 \
+          -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 \
+          -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk \
+          -DLAF_BACKEND=skia \
+          -DSKIA_DIR=${{ steps.path.outputs.working_path }}/skia \
+          -DSKIA_LIBRARY_DIR=${{ steps.path.outputs.working_path }}/skia/out/Release-x64 \
+          -DSKIA_LIBRARY=${{ steps.path.outputs.working_path }}/skia/out/Release-x64/libskia.a \
+          -G Ninja \
+          -Wno-dev \
+          ..
         ninja aseprite
     - name: Archive bin
       run: |
