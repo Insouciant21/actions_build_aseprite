@@ -120,6 +120,9 @@ jobs:
       run: |
         wget -q -O skia.zip https://github.com/aseprite/skia/releases/latest/download/Skia-macOS-Release-x64.zip
         7z x skia.zip -y -oskia | grep ing
+    - name: Find path
+      id: path
+      run: echo "::set-output name=working_path::$(pwd)"
     - name: Compiling aseprite for macOS
       run: |
         cd aseprite/
