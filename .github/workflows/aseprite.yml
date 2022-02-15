@@ -166,11 +166,11 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ steps.links.outputs.action_tag }}
-        name: Aseprite ${{ steps.links.outputs.action_tag }}
+        tag_name: ${{ steps.links.outputs.atb }}
+        name: Aseprite ${{ steps.links.outputs.atb }}
         files: |
-          artifact/Aseprite-${{ steps.links.outputs.action_tag }}-win-x64.zip
-          artifact/Aseprite-${{ steps.links.outputs.action_tag }}-ubuntu_amd64.deb
+          artifact/Aseprite-win-x64.zip
+          artifact/Aseprite-mac-x64.deb
         body: |
           Unofficial dev release.
           Support [official version](https://www.aseprite.org/download)
