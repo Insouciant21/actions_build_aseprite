@@ -170,7 +170,7 @@ jobs:
         name: Aseprite ${{ steps.links.outputs.atb }}
         files: |
           artifact/Aseprite-win-x64.zip
-          artifact/Aseprite-mac-x64.deb
+          artifact/Aseprite-mac-x64.zip
         body: |
           Unofficial dev release.
           Support [official version](https://www.aseprite.org/download)
