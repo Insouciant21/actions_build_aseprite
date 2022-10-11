@@ -30,8 +30,8 @@ jobs:
     - name: Find path
       id: path
       run: echo "::set-output name=working_path::$(pwd | findstr \)"
-    - name: Enable Developer Command Prompt
-      uses: ilammy/msvc-dev-cmd@master
+    - name: Setup MSVC Developer Command Prompt
+      uses: TheMrMilchmann/setup-msvc-dev@v2.0.0
       with:
         arch: x64
         sdk: 10.0.18362.0
@@ -104,7 +104,7 @@ jobs:
 #        with:
 #          path: Aseprite-ubuntu_amd64.deb
   build-macos:
-    runs-on: macos-10.15
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: Get Download Links
