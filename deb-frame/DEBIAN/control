@@ -1,5 +1,5 @@
 Package: Aseprite
-Version: 1.2.40
+Version: 1.3-rc1
 Section: utils
 Priority: optional
 Architecture: amd64
