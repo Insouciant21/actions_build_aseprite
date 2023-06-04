@@ -12,6 +12,8 @@ jobs:
   build-win:
     runs-on: windows-2019
     steps:
+    - name: Install ninja-build tool
+      uses: seanmiddleditch/gha-setup-ninja@v3
     - uses: actions/checkout@v2
     - uses: seanmiddleditch/gha-setup-ninja@master
     - name: Get Download Links
