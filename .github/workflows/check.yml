@@ -2,6 +2,12 @@ name: Check Versions
 on:
   schedule:
     - cron:  '30 1 1,15 * *'
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Run?'
+        required: true
+        default: 'YES!'
 jobs:
   get-version:
     runs-on: ubuntu-latest
