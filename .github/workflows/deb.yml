@@ -10,15 +10,15 @@ jobs:
       - name: Get versions
         run: |
           cat deb-frame/DEBIAN/control | grep Version | cut -d " " -f 2 > original.txt
-          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" | cut -d "v" -f 2 > source.txt
+          curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | jq -r ".tag_name" | cut -d "v" -f 2 > source.txt
       - name: var
         id: var
         run: |
-          echo "::set-output name=original::$(cat deb-frame/DEBIAN/control | grep Version | cut -d " " -f 2)"
-          echo "::set-output name=source::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r ".tag_name" | cut -d "v" -f 2)"
+          echo "original=$(cat deb-frame/DEBIAN/control | grep Version | cut -d " " -f 2)" >> $GITHUB_OUTPUT
+          echo "source=$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | jq -r ".tag_name" | cut -d "v" -f 2)" >> $GITHUB_OUTPUT
       - name: Compare
         id: check
-        run: echo "::set-output name=diff::$(if diff original.txt source.txt -q; then echo "false"; fi)"
+        run: echo "diff=$(if diff original.txt source.txt -q; then echo "false"; fi)" >> $GITHUB_OUTPUT
       - name: Patch it
         if: steps.check.outputs.diff != 'false'
         run: |
