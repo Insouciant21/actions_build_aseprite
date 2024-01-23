@@ -16,9 +16,9 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@master
     - name: Get Download Links
       run: |
-        echo "::set-output name=action_ase::$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url')"
-        echo "::set-output name=action_skia::$(iwr https://api.github.com/repos/aseprite/skia/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url' | findstr Windows | findstr 64)"
-        echo "::set-output name=action_tg::$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')"
+        echo "action_ase=$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url')" >> "$GITHUB_OUTPUT"
+        echo "action_skia=$(iwr https://api.github.com/repos/aseprite/skia/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url' | findstr Windows | findstr 64)" >> "$GITHUB_OUTPUT"
+        echo "action_tg=$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')" >> "$GITHUB_OUTPUT"
       id: links
     - name: Clone aseprite source
       run: |
@@ -29,7 +29,7 @@ jobs:
         7z x skia.zip -y -oskia | findstr ing
     - name: Find path
       id: path
-      run: echo "::set-output name=working_path::$(pwd | findstr \)"
+      run: echo "working_path=$(pwd | findstr \)" >> "$GITHUB_OUTPUT"
     - name: Setup MSVC Developer Command Prompt
       uses: TheMrMilchmann/setup-msvc-dev@v2.0.0
       with:
@@ -63,9 +63,9 @@ jobs:
            sudo apt-get install -y g++ clang-10 libc++-10-dev libc++abi-10-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
       - name: Get Download Links
         run: |
-          echo "::set-output name=action_ase::$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')"
-          echo "::set-output name=action_skia::$(curl -sL https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[].browser_download_url' | grep Linux | grep 64)"
-          echo "::set-output name=action_tag::$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')"
+          echo "action_ase=$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')" >> "$GITHUB_OUTPUT"
+          echo "action_skia=$(curl -sL https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[].browser_download_url' | grep Linux | grep 64)" >> "$GITHUB_OUTPUT"
+          echo "action_tag=$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')" >> "$GITHUB_OUTPUT"
         id: links
       - name: Clone aseprite source
         run: |
@@ -77,7 +77,7 @@ jobs:
           7z x skia.zip -y -oskia | grep ing
       - name: Find path
         id: path
-        run: echo "::set-output name=working_path::$(pwd)"
+        run: echo "working_path=$(pwd)" >> "$GITHUB_OUTPUT"
       - name: Compiling aseprite for linux
         run: |
            cd aseprite
@@ -115,8 +115,8 @@ jobs:
         brew install ninja
         pip install lastversion
         export GITHUB_API_TOKEN=${{ secrets.WORK1 }}
-        echo "::set-output name=action_ase::$(lastversion --format assets aseprite/aseprite)"
-        echo "::set-output name=action_tag::$(lastversion aseprite/aseprite)"
+        echo "action_ase=$(lastversion --format assets aseprite/aseprite)" >> "$GITHUB_OUTPUT"
+        echo "action_tag=$(lastversion aseprite/aseprite)" >> "$GITHUB_OUTPUT"
       id: links
     - name: Clone aseprite source
       run: |
@@ -127,7 +127,7 @@ jobs:
         7z x skia.zip -y -oskia | grep ing
     - name: Find path
       id: path
-      run: echo "::set-output name=working_path::$(pwd)"
+      run: echo "working_path=$(pwd)" >> "$GITHUB_OUTPUT"
     - name: Compiling aseprite for macOS
       run: |
         cd aseprite/
@@ -164,7 +164,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v2
     - name: Get tag
-      run: echo "::set-output name=atb::$(cat release-versions/version.json)"
+      run: echo "atb=$(cat release-versions/version.json)" >> "$GITHUB_OUTPUT"
       id: links
     - name: Release
       uses: softprops/action-gh-release@v1
