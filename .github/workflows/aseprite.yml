@@ -10,10 +10,11 @@ on:
           default: 'YES!'
 jobs:
   build-win:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - uses: seanmiddleditch/gha-setup-ninja@master
+    - uses: urgn/setup-jq-action@v3.0.2
     - name: Get Download Links
       run: |
         echo "action_ase=$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url')" >> "$GITHUB_OUTPUT"
