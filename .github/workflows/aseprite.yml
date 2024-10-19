@@ -16,7 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: seanmiddleditch/gha-setup-ninja@master
-    - uses: urgn/setup-jq-action@v3.0.2
+    - uses: vegardit/gha-setup-jq@1.0.0
+      with:
+          version: latest
     - name: Get Download Links
       run: |
         echo "action_ase=$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url')" >> "$GITHUB_OUTPUT"
