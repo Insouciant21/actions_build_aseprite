@@ -1,4 +1,5 @@
 name: ninja aseprite
+
 on:
   repository_dispatch:
     types: [build]
@@ -8,11 +9,12 @@ on:
           description: 'Run?'
           required: true
           default: 'YES!'
+
 jobs:
   build-win:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: seanmiddleditch/gha-setup-ninja@master
     - uses: urgn/setup-jq-action@v3.0.2
     - name: Get Download Links
@@ -52,13 +54,14 @@ jobs:
         cd ..\..\..
         mv aseprite\build\bin\Aseprite-win-x64.zip .
     - name: Upload Windows artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         path: Aseprite-win-x64.zip
+
   build-linux:
-    runs-on: 	ubuntu-18.04
+    runs-on:  ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install dependencies
         run: |
            sudo apt-get install -y g++ clang-10 libc++-10-dev libc++abi-10-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
@@ -104,13 +107,14 @@ jobs:
            cp -r aseprite/build/bin/* deb-frame/usr/share/aseprite/
            dpkg -b deb-frame Aseprite-ubuntu_amd64.deb
       - name: Upload linux artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: Aseprite-ubuntu_amd64.deb
+
   build-macos:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Get Download Links
       run: |
         brew install ninja
@@ -154,16 +158,17 @@ jobs:
         cd ../../..
         mv aseprite/build/bin/Aseprite-mac-x64.zip .
     - name: Upload macos artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
           path: Aseprite-mac-x64.zip
+
   Upload:
-    needs: [build-win,  build-macos, build-linux]
+    needs: [build-win, build-macos, build-linux]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Download artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
     - name: Get tag
       run: echo "atb=$(cat release-versions/version.json)" >> "$GITHUB_OUTPUT"
       id: links
