@@ -35,7 +35,7 @@ jobs:
       id: path
       run: echo "working_path=$(pwd | findstr \)" >> "$GITHUB_OUTPUT"
     - name: Setup MSVC Developer Command Prompt
-      uses: TheMrMilchmann/setup-msvc-dev@latest
+      uses: TheMrMilchmann/setup-msvc-dev@4.0.0
       with:
         arch: x64
     - name: Compiling aseprite for Windows
