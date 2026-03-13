@@ -41,7 +41,7 @@ jobs:
     - name: Compiling aseprite for Windows
       run: |
         cd aseprite
-        build.cmd < ../input.txt
+        Get-Content ../input.txt | .\build.cmd
     - name: Archive bin
       run: |
         cd aseprite\build\bin
