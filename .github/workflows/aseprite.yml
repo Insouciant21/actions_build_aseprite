@@ -14,7 +14,7 @@ jobs:
   build-win:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - uses: seanmiddleditch/gha-setup-ninja@master
     - name: Clone aseprite source
       run: |
@@ -32,7 +32,7 @@ jobs:
         Get-Content ../input.txt | .\build.cmd
     - name: Archive bin
       run: |
-        cd ${{ steps.path.outputs.working_path }}\builds\aseprite-release\bin
+        cd  /d/a/actions_build_aseprite/actions_build_aseprite/builds/aseprite-release/bin/
         rm gen*
         rm mod*
         7z -tzip a Aseprite-win-x64.zip * -mx0 | findstr ing
@@ -46,7 +46,7 @@ jobs:
   build-linux:
     runs-on:  ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install dependencies
         run: |
            sudo apt install -y g++ clang cmake ninja-build libx11-dev libxcursor-dev libxi-dev libxrandr-dev libgl1-mesa-dev libfontconfig1-dev
@@ -69,7 +69,7 @@ jobs:
       - name: Package deb
         run: |
            mkdir deb-frame/usr/share/aseprite
-           cp -r builds/aseprite-release/bin/* deb-frame/usr/share/aseprite/
+           cp -r /home/runner/builds/aseprite-release/bin/* deb-frame/usr/share/aseprite/
            dpkg -b deb-frame Aseprite-ubuntu_amd64.deb
       - name: Upload linux artifact
         uses: actions/upload-artifact@v7.0.0
@@ -117,14 +117,14 @@ jobs:
     needs: [build-win, build-macos, build-linux]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Download artifacts
       uses: actions/download-artifact@v7.0.0
     - name: Get tag
       run: echo "atb=$(cat release-versions/version.json)" >> "$GITHUB_OUTPUT"
       id: links
     - name: Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.links.outputs.atb }}
         name: Aseprite ${{ steps.links.outputs.atb }}
