@@ -41,7 +41,7 @@ jobs:
     - name: Compiling aseprite for Windows
       run: |
         cd aseprite
-        build.cmd
+        build.cmd < ../input.txt
     - name: Archive bin
       run: |
         cd aseprite\build\bin
@@ -82,7 +82,7 @@ jobs:
       - name: Compiling aseprite for linux
         run: |
            cd aseprite
-           ./build.sh
+           echo -e "D\n\n\n\n" |./build.sh
       - name: Package deb
         run: |
            mkdir deb-frame/usr/share/aseprite
@@ -118,7 +118,7 @@ jobs:
     - name: Compiling aseprite for macOS
       run: |
         cd aseprite/
-        ./build.sh
+        printf "D\n\n\n\n" | ./build.sh
     - name: Archive bin
       run: |
         cd aseprite/build/bin
