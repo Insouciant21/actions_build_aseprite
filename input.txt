@@ -1,4 +1,4 @@
 D
-
-
+/d/a/actions_build_aseprite/actions_build_aseprite/builds
+/d/a/actions_build_aseprite/actions_build_aseprite/deps/skia
 
