@@ -22,7 +22,7 @@ jobs:
     - name: Get Download Links
       run: |
         echo "action_ase=$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url')" >> "$GITHUB_OUTPUT"
-        echo "action_skia=$(iwr https://api.github.com/repos/aseprite/skia/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url' | findstr Windows | findstr 64)" >> "$GITHUB_OUTPUT"
+        echo "action_skia=$(iwr https://api.github.com/repos/aseprite/skia/releases/latest | Select -ExpandProperty Content | jq -r '.assets[].browser_download_url' | findstr Windows | findstr 64 | findstr Release)" >> "$GITHUB_OUTPUT"
         echo "action_tg=$(iwr https://api.github.com/repos/aseprite/aseprite/releases/latest | Select -ExpandProperty Content | jq -r '.tag_name')" >> "$GITHUB_OUTPUT"
       id: links
     - name: Clone aseprite source
@@ -66,11 +66,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-           sudo apt install -y g++ clang-10 libc++-10-dev libc++abi-10-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
+           sudo apt install -y g++ clang libc++-dev libc++abi-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
       - name: Get Download Links
         run: |
           echo "action_ase=$(curl -sL https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.assets[].browser_download_url')" >> "$GITHUB_OUTPUT"
-          echo "action_skia=$(curl -sL https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[].browser_download_url' | grep Linux | grep 64)" >> "$GITHUB_OUTPUT"
+          echo "action_skia=$(curl -sL https://api.github.com/repos/aseprite/skia/releases/latest | jq -r '.assets[].browser_download_url' | grep Linux | grep 64 | grep Release)" >> "$GITHUB_OUTPUT"
           echo "action_tag=$(curl -s https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r '.tag_name')" >> "$GITHUB_OUTPUT"
         id: links
       - name: Clone aseprite source
