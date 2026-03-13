@@ -32,7 +32,7 @@ jobs:
         Get-Content ../input.txt | .\build.cmd
     - name: Archive bin
       run: |
-        cd  /d/a/actions_build_aseprite/actions_build_aseprite/builds/aseprite-release/bin/
+        cd D:\a\actions_build_aseprite\actions_build_aseprite\builds\aseprite-release\bin
         rm gen*
         rm mod*
         7z -tzip a Aseprite-win-x64.zip * -mx0 | findstr ing
@@ -41,6 +41,7 @@ jobs:
     - name: Upload Windows artifact
       uses: actions/upload-artifact@v7.0.0
       with:
+        name: windows
         path: Aseprite-win-x64.zip
 
   build-linux:
@@ -74,6 +75,7 @@ jobs:
       - name: Upload linux artifact
         uses: actions/upload-artifact@v7.0.0
         with:
+          name: ubuntu
           path: Aseprite-ubuntu_amd64.deb
 
   build-macos:
@@ -111,6 +113,7 @@ jobs:
     - name: Upload macos artifact
       uses: actions/upload-artifact@v7.0.0
       with:
+          name: mac
           path: Aseprite-mac-x64.zip
 
   Upload:
